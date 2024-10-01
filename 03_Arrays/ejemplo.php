@@ -275,16 +275,84 @@
         <tbody>
             <?php
             arsort($profesores);
-            foreach ($profesores as $asignaturas => $profes){
+            foreach ($profesores as $asignaturas => $profes) {
                 echo "<tr>";
-                echo "<td>$asignaturas</td>";
-                echo "<td>$profes</td>";
+                    echo "<td>$asignaturas</td>";
+                    echo "<td>$profes</td>";
                 echo "</tr>";
             }
             
             ?>
         </tbody>
     </table>
+
+        <!--
+
+        Tabla que muestre los siguientes datos y en otra celda si estan aprobados o suspensos.
+            Guillermo => 3
+            Daiana => 5
+            Ángel => 8
+            Ayoub => 7
+            Mateo => 9
+            Joaquín => 4
+
+            - Si nota < 5 -> suspenso
+            - Si nota < 7 -> aprobado
+            - Si nota < 9 -> notable
+            - Si nota <= 10 -> sobresaliente
+
+            Y además!   Si el alumno ha aprobado, que su fila este verde.
+                        Si el alumno ha suspendido, que su fila este en rojo.
+
+            ordenar por nombre
+
+            si esta aprobado, añadir bien, notable...
+        -->
+
+        <?php
+        $notas_clase = array (
+            "Guillermo" => 3,
+            "Daiana" => 5,
+            "Ángel" => 8,
+            "Ayoub" => 7,
+            "Mateo" => 9,
+            "Joaquín" => 4
+        );
+        ?>
+
+            <table>
+            <thead>
+                <th>Alumno</th>
+                <th>Nota</th>
+                <th>Estado</th>
+                <th>Específico</th>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($notas_clase as $alumno => $nota) {
+                    echo "<tr>";
+                        echo "<td>$alumno</td>";
+                        echo "<td>$nota</td>";
+                        if ($nota >= 5) {
+                            echo "<td>Aprobado</td>";
+                            if ($nota >= 5) {
+                                echo "<td>Bien</td>";
+                            } elseif ($nota >= 7) {
+                                echo "<td>Notable</td>";
+                            } elseif ($nota >= 9) {
+                                echo "<td>Sobresaliente</td>";
+                            } else {
+                                echo "<td>Suspenso</td>";
+                            }
+                        } else {
+                            echo "<td>Suspenso</td>";
+                        }
+                    echo "</tr>";
+                }
+                
+                ?>
+            </tbody>
+        </table>
 
 
 </body>
