@@ -1,6 +1,5 @@
 td, th {   
     border: 1px solid black;
-    border-collapse: collapse;
 }
 
 th {
@@ -9,4 +8,12 @@ th {
 
 td {
     background-color: rgb(240, 240, 240);
+}
+
+.aprobado {
+    background-color: greenyellow;
+}
+
+.suspenso {
+    background-color: red;
 }

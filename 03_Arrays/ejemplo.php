@@ -319,33 +319,31 @@
             "Joaquín" => 4
         );
         ?>
-
+            <h3>Estudiantes</h3>
             <table>
             <thead>
                 <th>Alumno</th>
                 <th>Nota</th>
                 <th>Estado</th>
-                <th>Específico</th>
             </thead>
             <tbody>
                 <?php
                 foreach ($notas_clase as $alumno => $nota) {
-                    echo "<tr>";
-                        echo "<td>$alumno</td>";
-                        echo "<td>$nota</td>";
-                        if ($nota >= 5) {
-                            echo "<td>Aprobado</td>";
-                            if ($nota >= 5) {
-                                echo "<td>Bien</td>";
-                            } elseif ($nota >= 7) {
-                                echo "<td>Notable</td>";
-                            } elseif ($nota >= 9) {
-                                echo "<td>Sobresaliente</td>";
-                            } else {
-                                echo "<td>Suspenso</td>";
-                            }
-                        } else {
+                    if ($nota < 5) {
+                        echo "<tr class='suspenso'>";
+                    } else {
+                        echo "<tr class='aprobado'>";
+                    }
+                    echo "<td>$alumno</td>";
+                    echo "<td>$nota</td>";
+                        if ($nota < 5) {                            
                             echo "<td>Suspenso</td>";
+                        } else if ($nota < 7) {
+                            echo "<td>Aprobado</td>";
+                        } else if ($nota < 9) {
+                            echo "<td>Notable</td>";
+                        } else if ($nota <= 10) {
+                            echo "<td>Sobresaliente</td>";
                         }
                     echo "</tr>";
                 }
