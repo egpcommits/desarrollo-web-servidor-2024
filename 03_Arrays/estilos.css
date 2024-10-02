@@ -10,10 +10,10 @@ td {
     background-color: rgb(240, 240, 240);
 }
 
-.aprobado {
+.aprobado td {
     background-color: greenyellow;
 }
 
-.suspenso {
+.suspenso td {
     background-color: red;
 }
