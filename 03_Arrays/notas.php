@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Notas</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notas</title>
+    <style>
+        td, th {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
     <?php
@@ -12,7 +23,7 @@
         ["Paco", "Desarrollo web servidor"],
         ["Paco", "Desarrollo web cliente"],
         ["Manu", "Desarrollo web servidor"],
-        ["Manu", "Desarrollo web cliente"],
+        ["Manu", "Desarrollo web cliente"]        
     ];
 
     /*
@@ -28,6 +39,67 @@
 
         Ejercicio 6: mostrarlo todo en una tabla.
     */
+
+    //Ejercicio 1:
+    array_push($notas, ["Luis", "Diseño de interfaces"]);
+    array_push($notas, ["Dani", "Bases de datos"]);
+    array_push($notas, ["Jaime", "Programación"]);
+    array_push($notas, ["Alejandra", "Sistemas informáticos"]);
+
+
+    //Ejercicio 2:
+    unset($notas[rand(0, count($notas))]);
+    $notas = array_values($notas); //Para reordenar el array y que no de problemas al sacarlo por pantalla.
+    
+
+    // Ejercicio 3:
+    $i = 0;
+    while ($i < count($notas)) {
+        $notas[$i][2] = rand(0, 10);
+        $i++;
+    }
+
+    
+
+    // Ejercicio 5:
+    $_nombre = array_column($notas, 0);
+    $_nota = array_column($notas, 2);
+    $_asignatura = array_column($notas, 1);
+    array_multisort($_nombre, SORT_ASC, $_asignatura, SORT_ASC, $_nota, SORT_ASC, $notas);
     ?>
+
+
+    <!-- Ejercicio 4 y 6: -->
+    <h3>Notas</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Asignatura</th>
+                <th>Nota</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach($notas as $estudiante) {
+                    list($nombre, $asignatura, $nota, $estado) = $estudiante;                    
+                    echo "<tr>";
+                        echo "<td>$nombre</td>";
+                        echo "<td>$asignatura</td>";
+                        echo "<td>$nota</td>";
+                        
+                        if ($nota < 5) {
+                            $estado = "No apto";
+                        } else {
+                            $estado = "Apto";
+                        }
+                        echo "<td>$estado</td>";
+                    echo "</tr>";
+                }                
+            ?>
+        </tbody>
+    </table>
+    
 </body>
 </html>
