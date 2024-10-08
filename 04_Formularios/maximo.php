@@ -7,13 +7,37 @@
 </head>
 <body>
     <!-- 
-    Crear con números a vuestra elección.
+    Crear array con números a vuestra elección.
 
     Mostrar dichos números de la forma que más os guste.
 
     Crear un formulario donde se intente introducir el máximo valor y se compruebe si has acertado.
     -->
 
+
+    <form action = "" method = "post">
+        <input type = "text" name = "maximo" placeholder = "Máximo número">
+        <input type = "submit" value = "Comprobar">
+    </form>
+
+    <?php
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $maximo = $_POST["maximo"];
+        $array = array(21, 9, 11, 2015, 20, 10);
+        $mayor = 0;
+
+        foreach($array as $elemento) {
+            if ($elemento > $mayor) $mayor = $elemento;
+        }
+
+        if ($mayor == $maximo) {
+            echo "<p>El mayor numero es $mayor y se ha adivinado correctamente ($maximo).</p>";
+        } else {
+            echo "<p>El mayor numero es $mayor y NO se ha adivinado correctamente ($maximo).</p>";
+        }
+    }
+    ?>
 
 
 </body>
