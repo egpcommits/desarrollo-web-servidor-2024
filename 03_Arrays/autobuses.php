@@ -200,19 +200,15 @@
         <tbody>
             <?php
             foreach ($autobuses as $autobus) {
-                list ($origen, $destino, $duracion, $precio, $tipo) = $autobus;
+                list ($origen, $destino, $duracion, $precio) = $autobus;
                 echo "<tr>";
                 echo "<td>$origen</td>";
                 echo "<td>$destino</td>";
                 echo "<td>$duracion</td>";
                 echo "<td>$precio</td>";
-                if ($duracion <= 30) {
-                    $tipo = "Corta distancia";
-                } else if ($duracion > 30 && $duracion <= 120) {
-                    $tipo = "Media distancia";
-                } else if ($duracion > 120) {
-                    $tipo = "Larga distancia";
-                }
+                if ($duracion <= 30) $tipo = "Corta distancia";
+                else if ($duracion > 30 && $duracion <= 120) $tipo = "Media distancia";
+                else if ($duracion > 120) $tipo = "Larga distancia";
                 echo "<td>$tipo</td>";
                 echo "</tr>";
             }

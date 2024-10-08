@@ -15,6 +15,10 @@
             border: 1px solid black;
         }
     </style>
+    <?php
+        error_reporting( E_ALL );
+        ini_set( "display_errors", 1 );
+    ?>
 </head>
 <body>
     <?php
@@ -59,13 +63,19 @@
         $i++;
     }
 
+    for ($i=0; $i < count($notas); $i++) { 
+        $nota = $notas[$i][2];
+        if ($nota < 5) $notas[$i][3] = "No apto";
+        else $notas[$i][3] = "Apto";
+    }
+
     
 
     // Ejercicio 5:
     $_nombre = array_column($notas, 0);
     $_nota = array_column($notas, 2);
     $_asignatura = array_column($notas, 1);
-    array_multisort($_nombre, SORT_ASC, $_asignatura, SORT_ASC, $_nota, SORT_ASC, $notas);
+    array_multisort($_nombre, SORT_ASC, $_nota, SORT_ASC, $_asignatura, SORT_ASC, $notas);
     ?>
 
 
@@ -83,23 +93,30 @@
         <tbody>
             <?php
                 foreach($notas as $estudiante) {
-                    list($nombre, $asignatura, $nota, $estado) = $estudiante;                    
+                    list($nombre, $asignatura, $nota, $calificacion) = $estudiante;                    
                     echo "<tr>";
                         echo "<td>$nombre</td>";
                         echo "<td>$asignatura</td>";
                         echo "<td>$nota</td>";
-                        
-                        if ($nota < 5) {
-                            $estado = "No apto";
-                        } else {
-                            $estado = "Apto";
-                        }
-                        echo "<td>$estado</td>";
+                        echo "<td>$calificacion</td>";
                     echo "</tr>";
                 }                
             ?>
         </tbody>
     </table>
+
+    <!--
+        foreach($notas as $estudiante) {
+            echo "<tr>";
+                echo "<td>$notas[0]</td>";
+                echo "<td>$notas[1]</td>";
+                echo "<td>$notas[2]</td>";                        
+                if ($notas[2] < 5) $notas[4] = "No apto";
+                else $notas[4] = "Apto";
+                echo "<td>$notas[4]</td>";
+            echo "</tr>";
+        }
+    -->
     
 </body>
 </html>

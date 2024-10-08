@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arrays bidimensionales</title>
     <link href = "estilos.css" rel = "stylesheet">
+    <?php
+        error_reporting( E_ALL );
+        ini_set( "display_errors", 1 );
+    ?>
 </head>
 <body>
     <?php
@@ -159,7 +163,7 @@
         <tbody>
             <?php
             foreach($videojuegos as $videojuego) {
-                list($titulo, $categoria, $precio, $estado) = $videojuego;
+                list($titulo, $categoria, $precio) = $videojuego;
                 echo "<tr>";
                 echo "<td>$titulo</td>";
                 echo "<td>$categoria</td>";
