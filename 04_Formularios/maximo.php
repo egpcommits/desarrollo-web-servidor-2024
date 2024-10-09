@@ -16,7 +16,8 @@
 
 
     <form action = "" method = "post">
-        <input type = "text" name = "maximo" placeholder = "Máximo número">
+        <label for = "maximo">Máximo</label> <!-- Con el for que indique el id correspondiente, cuando pinchemos en la etiqueta, nos dirigirá al input correspondiente. -->
+        <input type = "text" id = "maximo" name = "maximo" placeholder = "Máximo número">
         <input type = "submit" value = "Comprobar">
     </form>
 
@@ -32,9 +33,9 @@
         }
 
         if ($mayor == $maximo) {
-            echo "<p>El mayor numero es $mayor y se ha adivinado correctamente ($maximo).</p>";
+            echo "<p>El mayor número es $mayor y se ha adivinado correctamente ($maximo).</p>";
         } else {
-            echo "<p>El mayor numero es $mayor y NO se ha adivinado correctamente ($maximo).</p>";
+            echo "<p>El mayor número es $mayor y NO se ha adivinado correctamente ($maximo).</p>";
         }
     }
     ?>
