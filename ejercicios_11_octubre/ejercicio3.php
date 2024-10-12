@@ -21,11 +21,10 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $inicial = $_POST["numero1"];
         $final = $_POST["numero2"];
-        $i = 2;
-        $es_primo = true;
-    
+        
         while($inicial <= $final) {
             $es_primo = true;
+            if ($inicial <= 1) $es_primo = false; //Si es menor o igual que uno, es_primo = false. Ni entra al bucle ni al if por error
             $i = 2;
             while (($i < ($inicial - 1)) && ($es_primo)) {
                 if ($inicial % $i == 0) $es_primo = false;
