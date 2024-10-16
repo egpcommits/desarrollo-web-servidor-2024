@@ -1,0 +1,12 @@
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    margin: 0 auto;
+}
+
+td {
+    border: 1px solid black;
+    padding: 10px;
+    background-color: paleturquoise;
+}
