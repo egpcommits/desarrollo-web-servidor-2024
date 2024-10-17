@@ -7,43 +7,32 @@
 </head>
 <body>
     <form action = "" method = "post">
-        <input type = "text" name = "cantidad" placeholder = "Cantidad">
+        <input type = "text" name = "salario" placeholder = "Salario">
         <input type = "submit" value = "Calcular IRPF">
     </form>
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $cantidad = $_POST["cantidad"];
+        $salario = $_POST["salario"];
         $resultado = 0;
-        $tramo1 = $cantidad - (12450 * 0.19);
-        $tramo2 = $cantidad - ((20200 - 12450) * 0.24);
-        $tramo3 = $cantidad - ((35200 - 20200) * 0.3);
-        $tramo4 = $cantidad - ((60000 - 35200) * 0.37);
-        $tramo5 = $cantidad - ((300000 - 60000) * 0.45);
+        $tramo1 = (12450 * 0.19);
+        $tramo2 = ((20200 - 12450) * 0.24);
+        $tramo3 = ((35200 - 20200) * 0.3);
+        $tramo4 = ((60000 - 35200) * 0.37);
+        $tramo5 = ((300000 - 60000) * 0.45);
 
-        if ($cantidad > 0 && $cantidad < 12450) {
-            $resultado = $tramo1;
-        } else if ($cantidad >= 12450 && $cantidad <= 20199) {
-            $tramo1;
-        } else if ($cantidad >= 20200 && $cantidad <= 35199) {
-            $tramo1;
-            $tramo2;
-        } else if ($cantidad >= 35200 && $cantidad <= 59999) {
-            $tramo1;
-            $tramo2;
-            $tramo3;
-        } else if ($cantidad >= 60000 && $cantidad <= 299999) {
-            $tramo1;
-            $tramo2;
-            $tramo3;
-            $tramo4;
-        } else if ($cantidad > 300000) {
-            $tramo1;
-            $tramo2;
-            $tramo3;
-            $tramo4;
-            $tramo5;
-            $resultado = $cantidad - 30000;
+        if($salario <= 12450) {
+            $resultado = $salario - ($salario * 0.19);
+        } elseif ($salario > 12450 && $salario <= 20200) {
+            $resultado = $salario - $tramo1 - (($salario - 12450) * 0.24); 
+        } elseif ($salario > 20200 && $salario <= 35200) {
+            $resultado = $salario - $tramo1 - $tramo2 - (($salario - 20200) * 0.30);
+        } elseif ($salario > 35200 && $salario <= 60000) {
+            $resultado = $salario - $tramo1 - $tramo2 - $tramo3- (($salario - 35200) * 0.37);
+        } elseif ($salario > 60000 && $salario <= 300000) {
+            $resultado = $salario - $tramo1 - $tramo2 - $tramo3 - $tramo4 - (($salario - 60000) * 0.45);
+        } else {
+            $resultado = $salario - $tramo1 - $tramo2 - $tramo3 - $tramo4 - $tramo5 - (($salario - 300000) * 0.47);
         }
 
         echo "<p>$resultado</p>";
