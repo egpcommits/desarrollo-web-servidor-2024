@@ -23,7 +23,7 @@
                 $resultado = $salario - $tramo1 - $tramo2 - $tramo3 - $tramo4 - $tramo5 - (($salario - 300000) * 0.47);
             }
     
-            echo "<p>$resultado</p>";
+            return $resultado;
         }        
     }
 ?>

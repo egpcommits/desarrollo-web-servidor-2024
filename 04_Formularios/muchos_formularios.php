@@ -26,6 +26,7 @@
         <input type = "number" name = "precio" id = "precio"><br><br>
         <label for = "iva">IVA</label>
         <select name = "iva" id = "iva">
+            <option disabled selected hidden>--- Elige opción ---</option>
             <option value = "general">General</option>
             <option value = "reducido">Reducido</option>
             <option value = "superreducido">Superreducido</option>
@@ -36,8 +37,35 @@
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($_POST["accion"] == "formulario_iva") {
-            $precio = $_POST["precio"];
-            $iva = $_POST["iva"];
+            $tmp_precio = $_POST["precio"];
+            $tmp_iva = $_POST["iva"];
+            if (isset($_POST["iva"])) $tmp_iva = $_POST["iva"];
+            else $tmp_iva = "";
+
+            if ($tmp_precio != '') {
+                if (filter_var($tmp_precio, FILTER_VALIDATE_FLOAT) !== FALSE) {
+                    if ($tmp_precio >= 0) {
+                        $precio = $tmp_precio;
+                    } else {
+                        $err_precio = "El precio no puede ser un número negativo";
+                    }
+                }
+            } else {
+                $err_precio = "El precio es obligatorio";
+            }
+
+            if ($tmp_iva != '') {
+                if (filter_var($tmp_precio, FILTER_VALIDATE_FLOAT) !== FALSE) {
+                    if ($tmp_precio >= 0) {
+                    
+                        $precio = $tmp_precio;
+                    } else {
+                        $err_precio = "El precio no puede ser un número negativo";
+                    }
+                }
+            } else {
+                $err_precio = "El precio es obligatorio";
+            }
             calcularIva($precio, $iva);
         }
     }
@@ -49,11 +77,27 @@
         <input type = "text" name = "salario" placeholder = "Salario">
         <input type = "hidden" name = "accion" value = "formulario_irpf">
         <input type = "submit" value = "Calcular IRPF">
-    </form><?php
+    </form>
+    <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($_POST["accion"] == "formulario_irpf") {
-            $salario = $_POST["salario"];
-            calcularIrpf($salario);
+            $tmp_salario = $_POST["salario"];
+            $resultado = 0;
+
+            if ($tmp_salario != '') {
+                if(filter_var($tmp_salario, FILTER_VALIDATE_FLOAT) !== FALSE) {
+                    if ($tmp_salario > 0) {
+                        $salario = $tmp_salario;
+                        $resultado = calcularIrpf($salario);
+                    } else {
+                        echo "<p>El salario tiene que ser mayor a 0</p>";
+                    }
+                } else {
+                    echo "<p>El salario tiene que ser un número.</p>";
+                }
+            }
+            
+            if ((isset($salario))) echo "<p>Salario con IRPF aplicado: $resultado</p>";
         }
     }
     ?>
