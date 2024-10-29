@@ -31,7 +31,7 @@
             if (preg_match($patron, $tmp_dni)) {
                 $numeros = (int)(substr($tmp_dni, 0, 8));
                 $resto = $numeros % 23;
-                $letra_dni = substr($tmp_dni, 8);
+                $letra_dni = substr($tmp_dni, 8, 1); //hay que especificar el length, en este caso 1, porque sino va a coger hasta el final de la cadena.
                 $letras = ["T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","H","L","C","K","E"];
                 if ($letra_dni == $letras[$resto]) {
                     $dni = $tmp_dni;
@@ -111,7 +111,7 @@
                         }
                     }
                 } else {
-                    if (($anno_actual - $anno_nacimiento) < 120) {
+                    if (($anno_actual - $anno_nacimiento) <= 121) {
                         $fecha_nacimiento = $tmp_fecha_nacimiento;
                     } else if (($anno_actual - $anno_nacimiento) == 120) {
                         if ($mes_actual > $mes_nacimiento) {
