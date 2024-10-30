@@ -41,7 +41,16 @@
         if ($tmp_fecha_lanzamiento = '') {
             $patron = "/^[0-9]{4}[0-9]{2}[0-9]{2}$/";
             if (preg_match($patron, $tmp_fecha_lanzamiento)) {
-                
+                $fecha_actual = date("Y-m-d");
+                list($anio_actual, $mes_actual, $dia_actual) = explode('-', $fecha_actual);
+                list($anio_lanzamiento, $mes_lanzamiento, $dia_lanzamiento) = explode('-', $tmp_fecha_lanzamiento);
+                if (($anio_lanzamiento >= 1947) && ($anio_lanzamiento < ($anio_actual + 10))) {
+                    $fecha_lanzamiento = $tmp_fecha_lanzamiento;
+                } else if ($anio_lanzamiento == ($anio_actual + 10)) {
+                    if ($mes_lanzamiento < $mes_actual) {
+
+                    } else $err_fecha_lanzamiento = "Fecha no válida.";
+                } else $err_fecha_lanzamiento = "El primer juego salió en 1947.";
             } else $err_fecha_lanzamiento = "Formato inválido (YYYY-MM-DD).";
         } else $err_fecha_lanzamiento = "La fecha de lanzamiento es obligatoria.";
     }
