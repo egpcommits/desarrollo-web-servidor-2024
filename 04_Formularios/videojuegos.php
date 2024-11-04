@@ -34,8 +34,13 @@
         } else $err_titulo = "El título es obligatorio.";
 
         //Consola
-        if (isset($_POST['consola'])) $consola = $_POST['consola']; //directamente guarda el value en la variable
-        else $err_consola = "La selección de consola es obligatoria.";
+        if (isset($_POST['consola'])) {
+            $tmp_consola = $_POST['consola']; //directamente guarda el value en la variable
+            $array_consolas = ["pc", "nintendo_switch", "ps4", "ps5", "xbox_x", "xbox_s"];
+            if (in_array($tmp_consola, $array_consolas)) {
+                $consola = $tmp_consola;
+            } else $err_consola = "Consola no válida";
+        } else $err_consola = "La selección de consola es obligatoria.";
         //en este caso pongo el error, pero si el isset devolviese falso, se podria guardar cadena vacia.
 
         //Descripcion
