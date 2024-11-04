@@ -18,7 +18,8 @@
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tmp_titulo = $_POST["titulo"];
-        $tmp_consola = $_POST["consola"];
+        //$tmp_consola = $_POST["consola"]; //Si no se selecciona un radio button, va a dar undefine array key.
+        //por eso hay que hacer el isset y despues guardar el valor
         $tmp_descripcion = $_POST["descripcion"];
         $tmp_fecha_lanzamiento = $_POST["fecha_lanzamiento"];
 
@@ -33,8 +34,9 @@
         } else $err_titulo = "El título es obligatorio.";
 
         //Consola
-        if (isset($tmp_consola)) echo "<p>hay algo marcado</p>";
-        else echo "<p>No hay nada marcado</p>";
+        if (isset($_POST['consola'])) $consola = $_POST['consola']; //directamente guarda el value en la variable
+        else $err_consola = "La selección de consola es obligatoria.";
+        //en este caso pongo el error, pero si el isset devolviese falso, se podria guardar cadena vacia.
 
         //Descripcion
         if ($tmp_descripcion != '') {
