@@ -61,7 +61,9 @@
                 list($anio_lanzamiento, $mes_lanzamiento, $dia_lanzamiento) = explode('-', $tmp_fecha_lanzamiento);
                 if (($anio_lanzamiento >= 1947) && ($anio_lanzamiento < ($anio_actual + 10))) {
                     $fecha_lanzamiento = $tmp_fecha_lanzamiento;
-                } else if ($anio_lanzamiento == ($anio_actual + 10)) {
+                } else if ($anio_lanzamiento > ($anio_actual + 10)) {
+                    $err_fecha_lanzamiento = "No se pueden registrar juegos con más de diez años.";
+                }  else if ($anio_lanzamiento == ($anio_actual + 10)) {
                     if ($mes_lanzamiento < $mes_actual) {
                         $fecha_lanzamiento = $tmp_fecha_lanzamiento;
                     } else if ($mes_lanzamiento == $mes_actual) {
