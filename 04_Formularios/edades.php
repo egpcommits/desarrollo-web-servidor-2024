@@ -25,9 +25,21 @@
     </form>
 
     <?php
+    //Saneamiento de datos (sanitizing)
+    //(Va a entrar un string) : va a devolver un string
+    function depurar (string $entrada) : string {
+        $salida = trim(htmlspecialchars($entrada));
+        $salida = preg_replace('/\s+/', ' ', $salida);
+        return $salida;
+    }
+    ?>
+
+    <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nombre = $_POST["nombre"];
-        $edad = (int)$_POST["edad"];
+        //htmlspecialchars - va a interpretar de manera literal. El html o el javascript que quiera meter algun gracioso no se va a colar
+        //trim - elimina los posibles espacios que vayan al inicio o al final de la palabra
+        $nombre = depurar($_POST["nombre"]); 
+        $edad = depurar($_POST["edad"]); 
 
         $resultado = match (true) {
             $edad < 18 => "es menor de edad.",
