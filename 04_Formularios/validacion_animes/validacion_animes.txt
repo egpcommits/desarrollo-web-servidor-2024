@@ -1,0 +1,12 @@
+Vamos a crear dos formularios: uno para animes y otro para los estudios de animación de la base de datos proporcionada en clase.
+
+
+El formulario de los animes lo crearemos en un fichero llamado “nuevo_anime.php” y tendrá los siguientes campos:
+- titulo: Es obligatorio y tendrá como máximo 80 caracteres. Admite cualquier tipo de carácter.
+- nombre_estudio: Es obligatorio y se elegirá mediante un campo de tipo select. Para crear este select primero haremos un array unidimensional con nombres de estudios de anime (al menos 5, puedes coger los nombres de la base de datos). Los option del select se crearán de manera dinámica en un bucle recorriendo dicho array y creando un option por cada valor del mismo. 
+- anno_estreno: Es opcional y se elegirá mediante un campo de texto. Sólo aceptará valores numéricos entre 1960 y dentro de 5 años (inclusive). 
+- num_temporadas: Es obligatorio y será un valor numérico entre 1 y 99.
+
+El formulario de los estudios lo crearemos en un fichero llamado “nuevo_estudio.php” y tendrá los siguientes campos:
+- nombre_estudio: Es obligatorio y solo podrá contener letras, números y espacios en blanco.
+- ciudad: Es obligatorio y solo podrá contener letras y espacios en blanco.
