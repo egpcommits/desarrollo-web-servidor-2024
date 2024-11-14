@@ -1,0 +1,13 @@
+El formulario contendrá el titulo del album, el nombre del artista, el numero de canciones, tipo de album en un select (single, mini o full album), codigo de album y fehca de lanzamiento.
+
+El titulo será obligatorio. Contendrá como mínimo 2 caracteres y como maximo 30. Será válido letras mayusculas y minusculas, numeros, caracteres especiales y espacios en blanco.
+
+El nombre del artista sera obligatorio. Como mínimo tendrá 2 caracteres y como maximo 15 (apellido incluido). Solo letras mayusculas y minusculas y espacios en blanco.
+
+El numero de canciones se recogera en un campo de texto, y habrá que comprobar que el número introducido sea entero. Como minimo tendra una cancion y como máximo 16.
+
+El tipo de album se hará en un select. Primero hacer un array con las distintas opciones, y llenar el select de forma dinamica.
+
+El codigo de album seguirá el siguiente patron: ABC-123456 (tres letras, un guion en medio y seis numeros)
+
+La fecha de lanzamiento se introcudirá en un campo tipo date. No puede ser anterior al 20 de octubre de 2015 ni posterior al 6 de diciembre de 2024.
