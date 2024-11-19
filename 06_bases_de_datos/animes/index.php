@@ -16,11 +16,12 @@
     ini_set( "display_errors", 1 );
     require('conexion.php');
     ?>
+    <!--
     <style>
         .table-primary {
             --bs-table-bg: #C1D88A;
         }
-    </style>
+    </style>-->
 </head>
 <body>
     <div class="container">
@@ -29,7 +30,9 @@
         $resultado = $_conexion -> query($sql);
         //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
         ?>
-        <table class ="table table-striped table-primary">
+        <a href="nuevo_anime.php">Nuevo anime</a>
+        <a href="nuevo_estudio.php">Nuevo estudio</a>
+        <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
                 <tr>
                     <th>Título</th>
@@ -49,6 +52,13 @@
                         echo "<td>" . $fila["nombre_estudio"] . "</td>";
                         echo "<td>" . $fila["anno_estreno"] . "</td>";
                         echo "<td>" . $fila["num_temporadas"] . "</td>";
+                        echo "<td>";
+                        ?>
+                        <td>
+                            <img src="<?php echo $fila["imagen"] ?>">
+                        </td>
+                        <?php
+                        echo "</td>";
                         echo "</tr>";
                     }
                 ?>

@@ -18,6 +18,8 @@
         $resultado = $_conexion -> query($sql);
         //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
         ?>
+        <a href="nueva_consola.php">Nueva consola</a>
+        <a href="nuevo_fabricante.php">Nuevo fabricante</a>
         <table class ="table table-striped table-primary">
             <thead class = "table-dark">
                 <tr>
