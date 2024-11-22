@@ -14,7 +14,19 @@
 <body>
     <div class="container">
         <?php
+            $sql = "SELECT * FROM estudios ORDER BY nombre_estudio";
+            $resultado = $_conexion -> query($sql);
+            $estudios = [];
+
+            var_dump($resultado);
+
+            while ($registro = $resultado -> fetch_assoc()) {
+                array_push($estudios, $registro["nombre_estudio"]);
+            }
+
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                
+
                 $titulo = $_POST["titulo"];
                 $nombre_estudio = $_POST["nombre_estudio"];
                 $anno_estreno = $_POST["anno_estreno"];
@@ -27,7 +39,7 @@
                 $nombre_imagen = $_FILES["imagen"]["name"];
                 move_uploaded_file($direccion_temporal, "imagenes/$nombre_imagen");
 
-                $sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas)
+                $sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen)
                     VALUES ('$titulo', '$nombre_estudio', $anno_estreno, $num_temporadas, './imagenes/$nombre_imagen')";
 
                 $_conexion -> query($sql); //ejecuto la query dela conexion
@@ -41,7 +53,15 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Estudio</label>
-                <input type="text" class="form-control" name = "nombre_estudio">
+                <select class="form-select" name="nombre_estudio">
+                    <option value="" selected disabled hidden>Elige un estudio</option>
+                    <?php foreach($estudios as $estudio) { ?>
+                        <option value="<?php echo $estudio ?>">
+                        <?php echo $estudio ?>
+                        </option>
+                    <?php }
+                    ?>
+                </select>
             </div>
             <div class="mb-3">
                 <label class="form-label">Año de estreno</label>
@@ -57,6 +77,7 @@
             </div>
             <div class="mb-3">
                 <input type="submit" class="btn btn-primary" value="Crear">
+                <a class="btn btn-secondary" href="index.php">Volver</a>
             </div>
         </form>    
     </div>

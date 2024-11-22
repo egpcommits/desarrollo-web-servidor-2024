@@ -30,7 +30,7 @@
         $resultado = $_conexion -> query($sql);
         //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
         ?>
-        <a href="nuevo_anime.php">Nuevo anime</a>
+        <a class="btn btn-secondary" href="nuevo_anime.php">Nuevo anime</a>
         <a href="nuevo_estudio.php">Nuevo estudio</a>
         <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
@@ -39,6 +39,7 @@
                     <th>Estudio</th>
                     <th>Año</th>
                     <th>Número de temporadas</th>
+                    <th>Imagen</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,13 +53,11 @@
                         echo "<td>" . $fila["nombre_estudio"] . "</td>";
                         echo "<td>" . $fila["anno_estreno"] . "</td>";
                         echo "<td>" . $fila["num_temporadas"] . "</td>";
-                        echo "<td>";
                         ?>
                         <td>
-                            <img src="<?php echo $fila["imagen"] ?>">
+                            <img width="100" height="160" src="<?php echo $fila["imagen"] ?>">
                         </td>
                         <?php
-                        echo "</td>";
                         echo "</tr>";
                     }
                 ?>
