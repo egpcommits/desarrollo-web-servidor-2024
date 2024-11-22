@@ -3,38 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animes</title>
+    <title>Tienda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- <style>
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
-        }
-    </style> -->
     <?php
     error_reporting( E_ALL );
     ini_set( "display_errors", 1 );
-    require('conexion.php');
+    require('../util/conexion.php');
     ?>
-    <!--
-    <style>
-        .table-primary {
-            --bs-table-bg: #C1D88A;
-        }
-    </style>-->
 </head>
 <body>
     <div class="container">
-        <h1>Listado de animes</h1>
+        <h1>Listado de productos</h1>
         <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $id_anime = $_POST["id_anime"];
-            //echo "<h1>$id_anime</h1>";
-            $sql = "DELETE FROM animes WHERE id_anime = '$id_anime'";
-            $_conexion -> query($sql);
-        }
 
-        $sql = "SELECT * FROM animes";
+        $sql = "SELECT * FROM productos";
         $resultado = $_conexion -> query($sql);
         //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
         ?>
@@ -43,13 +25,14 @@
         <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
                 <tr>
-                    <th>Título</th>
-                    <th>Estudio</th>
-                    <th>Año</th>
-                    <th>Número de temporadas</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Categoría</th>
+                    <th>Stock</th>
                     <th>Imagen</th>
-                    <th></th>
-                    <th></th>
+                    <th>Descripción</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,14 +42,17 @@
                         // ["titulo"=>"Frieren, "nombre_estudio"="Pierrot"...]
                         //va a coger el nombre de las columnas que se usa en la bbdd
                         echo "<tr>";
-                        echo "<td>" . $fila["titulo"] . "</td>";
-                        echo "<td>" . $fila["nombre_estudio"] . "</td>";
-                        echo "<td>" . $fila["anno_estreno"] . "</td>";
-                        echo "<td>" . $fila["num_temporadas"] . "</td>";
+                        echo "<td>" . $fila["nombre"] . "</td>";
+                        echo "<td>" . $fila["precio"] . "</td>";
+                        echo "<td>" . $fila["categoria"] . "</td>";
+                        echo "<td>" . $fila["stock"] . "</td>";
                         ?>
                         <td>
                             <img width="100" height="160" src="<?php echo $fila["imagen"] ?>">
                         </td>
+                        <?php
+                        echo "<td>" . $fila["descripcion"] . "</td>";
+                        ?>
                         <td>
                             <a class="btn btn-primary" href="editar_anime.php?id_anime=<?php echo $fila['id_anime'] ?>">Editar</a>
                         </td>

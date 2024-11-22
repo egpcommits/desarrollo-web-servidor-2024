@@ -14,6 +14,14 @@
 <body>
 <div class="container">
         <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $id_consola = $_POST["id_consola"];
+            echo "<h1>$id_consola</h1>";
+            $sql = "DELETE FROM consolas WHERE id_consola = '$id_consola'";
+            $_conexion -> query($sql);
+        }
+
+
         $sql = "SELECT * FROM consolas";
         $resultado = $_conexion -> query($sql);
         //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
@@ -27,6 +35,8 @@
                     <th>Fabricante</th>
                     <th>Generación</th>
                     <th>Unidades vendidas</th>
+                    <th>Imagen</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +50,17 @@
                         echo "<td>" . $fila["generacion"] . "</td>";
                         if ($fila["unidades_vendidas"] == NULL) echo "<td>No hay datos</td>";
                         else echo "<td>" . $fila["unidades_vendidas"] . "</td>";
+                        ?>
+                        <td>
+                            <img width="100" height="160" src="<?php echo $fila["imagen"] ?>">
+                        </td>
+                        <td>
+                            <form action ="" method ="post">
+                                <input type="hidden" name="id_consola" value="<?php echo $fila['id_consola']; ?>">
+                                <input class="btn btn-danger" type="submit" value="Borrar">
+                            </form>
+                        </td>
+                        <?php 
                         echo "</tr>";
                     }
                 ?>
