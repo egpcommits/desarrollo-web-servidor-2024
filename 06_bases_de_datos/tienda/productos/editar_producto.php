@@ -96,11 +96,7 @@
 
                     $_conexion -> query($sql);
                 }
-            }
-
-            
-
-            
+            } 
         ?>
         <form action="" method="post" enctype="multipart/form-data">
             <!--Encripta el archivo/fichero para poder mandarlo-->
@@ -134,8 +130,7 @@
                 <input type="text" class="form-control" name = "descripcion" value="<?php echo $producto["descripcion"] ?>">
             </div>
             <div class="mb-3">
-
-            <input type="hidden" name="id_producto" value="<?php echo $producto["id_producto"] ?>">
+                <input type="hidden" name="id_producto" value="<?php echo $producto["id_producto"] ?>">
                 <input type="submit" class="btn btn-primary" value="Modificar">
                 <a class="btn btn-secondary" href="index.php">Volver</a>
             </div>

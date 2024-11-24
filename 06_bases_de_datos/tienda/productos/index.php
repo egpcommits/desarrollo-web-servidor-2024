@@ -17,7 +17,7 @@
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_producto = $_POST["id_producto"];
-            $sql = "DELETE FROM productos WHERE id_producto = '$id_producto'";
+            $sql = "DELETE FROM productos WHERE id_producto = $id_producto";
             $_conexion -> query($sql);
         }
 
