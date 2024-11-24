@@ -1,7 +1,7 @@
 <?php
     $_servidor = "localhost"; // ip del seridor donde esta la base de datos, en este caso localhost o "127.0.0.1" (loopback)
-    $_usuario = "estudiante";
-    $_contrasena = "estudiante";
+    $_usuario = "root";
+    $_contrasena = "root";
     $_base_de_datos = "tienda_bd";
 
     // Tenemos dos opciones de librerias para crear una coneion con BBDD: Mysqli (más simple) o PDO (más completa).

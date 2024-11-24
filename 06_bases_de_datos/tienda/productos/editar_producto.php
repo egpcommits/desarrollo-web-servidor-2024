@@ -17,7 +17,8 @@
 <body>
     <div class="container">
         <?php
-            $sql = "SELECT * FROM categorias ORDER BY nombre";
+
+            $sql = "SELECT * FROM categorias";
             $resultado = $_conexion -> query($sql);
             $categorias = [];
 
@@ -25,7 +26,13 @@
                 array_push($categorias, $registro["nombre"]);
             }
 
+            $id_producto = $_GET["id_producto"];
+            $sql = "SELECT * FROM productos WHERE id_producto = '$id_producto'";
+            $resultado = $_conexion -> query($sql);
+            $producto = $resultado -> fetch_assoc();
+
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $id_producto = $_POST["id_producto"];
                 $tmp_nombre = $_POST["nombre"];
                 $tmp_precio = $_POST["precio"];
                 $tmp_stock = $_POST["stock"];
@@ -59,7 +66,7 @@
 
 
                 if ($tmp_stock != '') {
-                    if (strlen($tmp_stock) <= 3) {
+                    if (strlen($tmp_stock) === 3) {
                         $patron = "/^[0-9]+$/";
                         if (preg_match($patron, $tmp_stock)) {
                             $stock = $tmp_stock;
@@ -76,36 +83,38 @@
                         } else $err_nombre = "El nombre del producto solo puede tener letras mayúsculas, minúsculas y espacios.";
                     } else $err_descripcion = "La descripción del producto tiene como máximo 255 caracteres.";
                 } else $err_descripcion = "La descripción del producto es obligatoria.";
+                
 
-
-                //tambien meto la imagen, sino la imagen se meteria siempre, incluso si los datos son incorrectos.
                 if (isset($nombre) && isset($precio) && isset($categoria) && isset($stock) && isset($descripcion)) {
-                    $direccion_temporal = $_FILES["imagen"]["tmp_name"];
-                    $nombre_imagen = $_FILES["imagen"]["name"];
-                    move_uploaded_file($direccion_temporal, "../imagenes/$nombre_imagen");
+                    $sql = "UPDATE productos SET
+                        nombre = '$nombre',
+                        precio = $precio,
+                        categoria = '$categoria',
+                        stock = $stock,
+                        descripcion = '$descripcion'
+                    WHERE id_producto = $id_producto";
 
-                    $sql = "INSERT INTO productos (nombre, precio, categoria, stock, imagen, descripcion)
-                    VALUES ('$nombre', $precio, '$categoria', $stock, '../imagenes/$nombre_imagen', '$descripcion')";
-
-                    $_conexion -> query($sql); //ejecuto la query dela conexion
+                    $_conexion -> query($sql);
                 }
             }
+
+            
+
+            
         ?>
         <form action="" method="post" enctype="multipart/form-data">
             <!--Encripta el archivo/fichero para poder mandarlo-->
             <div class="mb-3">
                 <label class="form-label">Nombre</label>
                 <?php if (isset($err_nombre)) echo "<span class='error'>$err_nombre</span>" ?>
-                <input type="text" class="form-control" name = "nombre">
+                <input type="text" class="form-control" name = "nombre" value="<?php echo $producto["nombre"] ?>">
             </div>
             <div class="mb-3">
                 <label class="form-label">Precio</label>
-                <?php if (isset($err_precio)) echo "<span class='error'>$err_precio</span>" ?>
-                <input type="text" class="form-control" name = "precio">
+                <input type="text" class="form-control" name = "precio" value="<?php echo $producto["precio"] ?>">
             </div>
             <div class="mb-3">
                 <label class="form-label">Categoría</label>
-                <?php if (isset($err_categoria)) echo "<span class='error'>$err_categoria</span>" ?>
                 <select class="form-select" name="categoria">
                     <option value="" selected disabled hidden>Elige una categoria</option>
                     <?php foreach ($categorias as $categoria) { ?>
@@ -118,20 +127,16 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Stock</label>
-                <?php if (isset($err_stock)) echo "<span class='error'>$err_stock</span>" ?>
-                <input type="text" class="form-control" name = "stock">
+                <input type="text" class="form-control" name = "stock" value="<?php echo $producto["stock"] ?>">
             </div>
             <div class="mb-3">
                 <label class="form-label">Descripción</label>
-                <?php if (isset($err_descripcion)) echo "<span class='error'>$err_descripcion</span>" ?>
-                <input type="text" class="form-control" name = "descripcion">
+                <input type="text" class="form-control" name = "descripcion" value="<?php echo $producto["descripcion"] ?>">
             </div>
             <div class="mb-3">
-                <label class="form-label">Imagen</label>
-                <input type="file" class="form-control" name = "imagen">
-            </div>
-            <div class="mb-3">
-                <input type="submit" class="btn btn-primary" value="Crear">
+
+            <input type="hidden" name="id_producto" value="<?php echo $producto["id_producto"] ?>">
+                <input type="submit" class="btn btn-primary" value="Modificar">
                 <a class="btn btn-secondary" href="index.php">Volver</a>
             </div>
         </form>    

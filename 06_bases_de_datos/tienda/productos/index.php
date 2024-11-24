@@ -15,13 +15,18 @@
     <div class="container">
         <h1>Listado de productos</h1>
         <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $id_producto = $_POST["id_producto"];
+            $sql = "DELETE FROM productos WHERE id_producto = '$id_producto'";
+            $_conexion -> query($sql);
+        }
 
         $sql = "SELECT * FROM productos";
         $resultado = $_conexion -> query($sql);
         //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
         ?>
-        <a class="btn btn-secondary" href="nuevo_anime.php">Nuevo anime</a>
-        <a href="nuevo_estudio.php">Nuevo estudio</a>
+        <a class="btn btn-light btn-sm" href="../categorias/index.php">Cambiar a categorías</a>
+        <a class="btn btn-dark btn-sm" href="nuevo_producto.php">Nuevo producto</a><br><br>
         <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
                 <tr>
@@ -54,11 +59,11 @@
                         echo "<td>" . $fila["descripcion"] . "</td>";
                         ?>
                         <td>
-                            <a class="btn btn-primary" href="editar_anime.php?id_anime=<?php echo $fila['id_anime'] ?>">Editar</a>
+                            <a class="btn btn-primary" href="editar_producto.php?id_producto=<?php echo $fila['id_producto'] ?>">Editar</a>
                         </td>
                         <td>
                             <form action ="" method ="post">
-                                <input type="hidden" name="id_anime" value="<?php echo $fila['id_anime']; ?>">
+                                <input type="hidden" name="id_producto" value="<?php echo $fila['id_producto']; ?>">
                                 <input class="btn btn-danger" type="submit" value="Borrar">
                             </form>
                         </td>
