@@ -36,8 +36,8 @@
                     <th>Stock</th>
                     <th>Imagen</th>
                     <th>Descripción</th>
-                    <th>Editar</th>
-                    <th>Borrar</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>

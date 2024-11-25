@@ -27,7 +27,9 @@
             }
 
             $id_producto = $_GET["id_producto"];
-            $sql = "SELECT * FROM productos WHERE id_producto = '$id_producto'";
+
+            echo "<h2>$id_producto</h2>";
+            $sql = "SELECT * FROM productos WHERE id_producto = $id_producto";
             $resultado = $_conexion -> query($sql);
             $producto = $resultado -> fetch_assoc();
 
@@ -66,7 +68,7 @@
 
 
                 if ($tmp_stock != '') {
-                    if (strlen($tmp_stock) === 3) {
+                    if (strlen($tmp_stock) >= 1 && strlen($tmp_stock) <= 3) {
                         $patron = "/^[0-9]+$/";
                         if (preg_match($patron, $tmp_stock)) {
                             $stock = $tmp_stock;
@@ -86,6 +88,7 @@
                 
 
                 if (isset($nombre) && isset($precio) && isset($categoria) && isset($stock) && isset($descripcion)) {
+                    echo "<h2>modificao</h2>";
                     $sql = "UPDATE productos SET
                         nombre = '$nombre',
                         precio = $precio,
@@ -107,10 +110,12 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Precio</label>
+                <?php if (isset($err_precio)) echo "<span class='error'>$err_precio</span>" ?>
                 <input type="text" class="form-control" name = "precio" value="<?php echo $producto["precio"] ?>">
             </div>
             <div class="mb-3">
                 <label class="form-label">Categoría</label>
+                <?php if (isset($err_categoria)) echo "<span class='error'>$err_categoria</span>" ?>
                 <select class="form-select" name="categoria">
                     <option value="" selected disabled hidden>Elige una categoria</option>
                     <?php foreach ($categorias as $categoria) { ?>
@@ -123,10 +128,12 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Stock</label>
+                <?php if (isset($err_stock)) echo "<span class='error'>$err_stock</span>" ?>
                 <input type="text" class="form-control" name = "stock" value="<?php echo $producto["stock"] ?>">
             </div>
             <div class="mb-3">
                 <label class="form-label">Descripción</label>
+                <?php if (isset($err_descripcion)) echo "<span class='error'>$err_descripcion</span>" ?>
                 <input type="text" class="form-control" name = "descripcion" value="<?php echo $producto["descripcion"] ?>">
             </div>
             <div class="mb-3">
