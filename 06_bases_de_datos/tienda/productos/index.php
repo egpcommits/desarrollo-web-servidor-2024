@@ -9,10 +9,19 @@
     error_reporting( E_ALL );
     ini_set( "display_errors", 1 );
     require('../util/conexion.php');
+
+
+    session_start();
+    if (!isset($_SESSION["usuario"])) {
+        header("location: ../usuario/iniciar_sesion.php"); //Control de acceso. Si nohay usuario logeado, te va a mandar directamente a iniciar sesion.php
+        exit;
+    }
     ?>
 </head>
 <body>
     <div class="container">
+        <h2>Bienvenid@ <?php echo $_SESSION["usuario"] ?></h2>
+        <a class="btn btn-danger" href="usuario/cerrar_sesion.php">Cerrar sesión</a>
         <h1>Listado de productos</h1>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

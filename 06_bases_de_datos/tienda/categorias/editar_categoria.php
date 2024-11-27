@@ -32,14 +32,14 @@
 
             if ($tmp_descripcion != '') {
                 if (strlen($tmp_descripcion) <= 255) {
-                    $patron = "/^[A-Za-z0-9ÑÁÉÍÓÚñáéíóú ]+$/";
+                    $patron = "/^[A-Za-z0-9ÑÁÉÍÓÚñáéíóú., ]+$/";
                     if (preg_match($patron, $tmp_descripcion)) {
                         $descripcion = $tmp_descripcion;
-                    } else $err_nombre = "El nombre de la categoría solo puede tener letras mayúsculas, minúsculas y espacios.";
+                    } else $err_descripcion = "El nombre de la categoría solo puede tener letras mayúsculas, minúsculas y espacios.";
                 } else $err_descripcion = "La descripción de la categoría tiene como máximo 255 caracteres.";
             } else $err_descripcion = "La descripción de la categoría es obligatoria.";
 
-            if (isset($nombre) && isset($descripcion)) {
+            if (isset($descripcion)) {
                 $sql = "UPDATE categorias SET
                     descripcion = '$descripcion'
                 WHERE nombre = '$nombre'";
