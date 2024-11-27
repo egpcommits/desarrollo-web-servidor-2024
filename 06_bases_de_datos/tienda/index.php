@@ -8,7 +8,7 @@
     <?php
     error_reporting( E_ALL );
     ini_set( "display_errors", 1 );
-    require('../util/conexion.php');
+    require('util/conexion.php');
 
 
     session_start();
@@ -20,10 +20,6 @@
 </head>
 <body>
     <div class="container">
-        <h2>Bienvenid@ <?php echo $_SESSION["usuario"] ?></h2>
-        <!--Testing193!-->
-        <a class="btn btn-warning" href="../usuario/cambiar_credenciales.php">Cambiar contraseña</a>
-        <a class="btn btn-danger" href="../usuario/iniciar_sesion.php">Cerrar sesión</a><br><br>
         <h1>Listado de productos</h1>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -36,8 +32,8 @@
         $resultado = $_conexion -> query($sql);
         //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
         ?>
-        <a class="btn btn-light btn-sm" href="../categorias/index.php">Cambiar a categorías</a>
-        <a class="btn btn-dark btn-sm" href="nuevo_producto.php">Nuevo producto</a><br><br>
+        <a class="btn btn-light btn-sm" href="usuario/iniciar_sesion.php">Iniciar sesión</a>
+        <a class="btn btn-dark btn-sm" href="usuario/registro.php">Registrarse</a><br><br>
         <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
                 <tr>
@@ -47,8 +43,6 @@
                     <th>Stock</th>
                     <th>Imagen</th>
                     <th>Descripción</th>
-                    <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -68,17 +62,6 @@
                         </td>
                         <?php
                         echo "<td>" . $fila["descripcion"] . "</td>";
-                        ?>
-                        <td>
-                            <a class="btn btn-primary" href="editar_producto.php?id_producto=<?php echo $fila['id_producto'] ?>">Editar</a>
-                        </td>
-                        <td>
-                            <form action ="" method ="post">
-                                <input type="hidden" name="id_producto" value="<?php echo $fila['id_producto']; ?>">
-                                <input class="btn btn-danger" type="submit" value="Borrar">
-                            </form>
-                        </td>
-                        <?php
                         echo "</tr>";
                     }
                 ?>

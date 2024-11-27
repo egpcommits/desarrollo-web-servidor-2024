@@ -55,8 +55,6 @@
                 array_push($nombre_categorias, $registro["nombre"]);
             }
 
-            echo "<h1>" . $_GET["nombre"] . "</h1>";
-
             $nombre = $_GET["nombre"];
             $sql = "SELECT * FROM categorias WHERE nombre = '$nombre'";
             $resultado = $_conexion -> query($sql);
