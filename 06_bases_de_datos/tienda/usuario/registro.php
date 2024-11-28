@@ -10,19 +10,47 @@
         ini_set( "display_errors", 1 );
         require('../util/conexion.php');
     ?>
+    <style>
+        .error {color: red; font-style: italic}
+    </style>
 </head>
 <body>
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $usuario = $_POST["usuario"];
-        $contrasena = $_POST["contrasena"];
+        $tmp_usuario = $_POST["usuario"];
+        $tmp_contrasena = $_POST["contrasena"];
 
-        $contrasena_cifrada = password_hash($contrasena, PASSWORD_DEFAULT); //aplica el algoritmo mas reciente y mas seguro para cifrar la contraseña
-        //de la contraseña cifrada no se sabe cuantos caracteres son
-        //PASSWORD_DEFAULT: this constant is designed to change over time as new and stronger algorithms are added to PHP. For that reason, the length of the result from using this identifier can change over time. Therefore, it is recommended to store the result in a database column that can expand beyond 60 characters (255 characters would be a good choice).
+        if ($tmp_usuario != '') {
+            if (strlen($tmp_usuario) >= 3 && strlen($tmp_usuario) <= 15) {
+                $patron = "/^[0-9A-Za-z]+$/";
+                if (preg_match($patron, $tmp_usuario)) {
+                    $usuario = $tmp_usuario;
+                } else $err_usuario = "El nombre de usuario estará compuesto solo de letras y numeros.";
+            } else $err_usuario = "El nombre de usuario tendrá como mínimo 3 caracteres y como máximo 15.";
+        } else $err_usuario = "El nombre de usuario es obligatorio.";
 
-        $sql = "INSERT INTO usuarios VALUES ('$usuario', '$contrasena_cifrada')";
-        $_conexion -> query($sql);
+        if ($tmp_contrasena != '') {
+            if (strlen($tmp_contrasena) >= 8 && strlen($tmp_contrasena) <= 15) {
+                $patron = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/";
+                if (preg_match($patron, $tmp_contrasena)) {
+                    $contrasena = $tmp_contrasena;
+                } else $err_contrasena = "La nueva contraseña tiene que tener letras en mayus y minus, algun numero y puede tener caracteres especiales.";
+            } else $err_contrasena = "La nueva contraseña tiene como mínimo 8 caracteres y como maximo 15.";
+        } else $err_contrasena = "La contraseña es obligatoria.";
+
+        $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'"; //como mucho puede haber un usuario, como poco cero.
+        $resultado = $_conexion -> query($sql);
+        
+        if (isset($usuario) && isset($contrasena)) {
+            if ($resultado -> num_rows == 0) {
+                $contrasena_cifrada = password_hash($contrasena, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO usuarios VALUES ('$usuario', '$contrasena_cifrada')";
+                $_conexion -> query($sql);
+            } else $err_usuario = "El usuario ya existe. Introduzca un nombre distinto.";
+        }
+        
+
+        
     }
     ?>
     <div class="container">
@@ -31,10 +59,12 @@
             <!--Encripta el archivo/fichero para poder mandarlo-->
             <div class="mb-3 col-4">
                 <label class="form-label">Usuario</label>
+                <?php if (isset($err_usuario)) echo "<span class='error'>$err_usuario</span>" ?>
                 <input type="text" class="form-control" name = "usuario">
             </div>
             <div class="mb-3 col-4">
                 <label class="form-label">Contraseña</label>
+                <?php if (isset($err_contrasena)) echo "<span class='error'>$err_contrasena</span>" ?>
                 <input type="password" class="form-control" name = "contrasena">
             </div>
             <div class="mb-3">

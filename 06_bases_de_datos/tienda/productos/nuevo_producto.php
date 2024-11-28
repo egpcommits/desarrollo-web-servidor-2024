@@ -32,20 +32,23 @@
                 $tmp_descripcion = $_POST["descripcion"];
 
                 if ($tmp_nombre != '') {
-                    if (strlen($tmp_nombre) <= 50) {
+                    if (strlen($tmp_nombre) >= 2 && strlen($tmp_nombre) <= 50) {
                         $patron = "/^[0-9A-Za-zÑÁÉÍÓÚñáéíóú ]+$/";
                         if (preg_match($patron, $tmp_nombre)) {
                             $nombre = $tmp_nombre;
                         } else $err_nombre = "El nombre del producto solo puede tener letras mayúsculas, minúsculas, espacios y números.";
-                    } else $err_nombre = "El nombre del producto tiene como máximo 50 caracteres.";
+                    } else $err_nombre = "El nombre del producto tiene como mínimo 2 caracteres y como máximo 50 caracteres.";
                 } else $err_nombre = "El nombre del producto es obligatorio.";
 
 
                 if ($tmp_precio != '') {
                     if (filter_var($tmp_precio, FILTER_VALIDATE_FLOAT) !== FALSE) {
-                        if ($tmp_precio >= 0.1 && $tmp_precio <= 9999.99) {
-                            $precio = $tmp_precio;
-                        } else $err_precio = "El precio solo puede estar entre 0,1 y 9999,99.";
+                        if ($tmp_precio >= 0 && $tmp_precio <= 9999.99) {
+                            $patron = "/^[0-9]{1,4}(\.[0-9]{1,2})?$/";
+                            if (preg_match($patron, $tmp_precio)) {
+                                $precio = $tmp_precio;
+                            } else $err_precio = "El precio no cumple con el patron.";                            
+                        } else $err_precio = "El precio solo puede estar entre 0 y 9999,99.";
                     } else $err_precio = "El precio tiene que ser un número.";
                 } else $err_precio = "El precio del producto es obligatorio.";
 
@@ -100,7 +103,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Precio</label>
-                <?php if (isset($err_precio)) echo "<span class='error'>$err_precio</span>" ?>
+                <?php if (isset($err_precio)) echo "<div class='alert alert-danger col-9'>$err_precio</div>" ?>
                 <input type="text" class="form-control" name = "precio">
             </div>
             <div class="mb-3">

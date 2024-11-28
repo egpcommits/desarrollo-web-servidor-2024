@@ -17,11 +17,15 @@
 <body>
     <div class="container">
         <?php
+        $usuario = $_GET["usuario"];
 
+        $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
+        $resultado = $_conexion -> query($sql);
+        $credenciales = $resultado -> fetch_assoc();
         
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $usuario = $_POST["usuario"];
+            //$usuario = $_POST["usuario"];
             $tmp_contrasena = $_POST["contrasena"];
 
 
@@ -40,11 +44,7 @@
             $_conexion -> query($sql);
         }
 
-        $usuario = $_GET["usuario"];
-
-        $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
-        $resultado = $_conexion -> query($sql);
-        $credenciales = $resultado -> fetch_assoc();
+        
         ?>
 
         <form action="" method="post" enctype="multipart/form-data">
@@ -60,8 +60,8 @@
                 <input type="text" class="form-control" name = "contrasena" value="<?php echo $credenciales["contrasena"] ?>">
             </div>
             <div class="mb-3">
-            <input type="hidden" name="usuario" value="<?php echo $credenciales["usuario"] ?>">
-                <input type="submit" class="btn btn-primary" value="Modificar">
+                <input type="hidden" name="usuario" value="<?php echo $credenciales["usuario"] ?>">
+                <input type="submit" class="btn btn-primary" value="Cambiar contraseña">
                 <a class="btn btn-secondary" href="index.php">Volver</a>
             </div>
         </form>    

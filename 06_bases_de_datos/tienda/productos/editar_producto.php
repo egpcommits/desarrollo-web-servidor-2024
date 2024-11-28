@@ -28,7 +28,6 @@
 
             $id_producto = $_GET["id_producto"];
 
-            //echo "<h2>$id_producto</h2>";
             $sql = "SELECT * FROM productos WHERE id_producto = $id_producto";
             $resultado = $_conexion -> query($sql);
             $producto = $resultado -> fetch_assoc();
@@ -88,7 +87,6 @@
                 
 
                 if (isset($nombre) && isset($precio) && isset($categoria) && isset($stock) && isset($descripcion)) {
-                    echo "<h2>modificao</h2>";
                     $sql = "UPDATE productos SET
                         nombre = '$nombre',
                         precio = $precio,
