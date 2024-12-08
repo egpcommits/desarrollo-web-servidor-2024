@@ -34,7 +34,7 @@
             $categorias = [];
 
             while ($registro = $resultado -> fetch_assoc()) {
-                array_push($categorias, $registro["nombre"]);
+                array_push($categorias, $registro["categoria"]);
             }
 
             $id_producto = $_GET["id_producto"];

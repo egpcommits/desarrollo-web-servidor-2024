@@ -29,12 +29,12 @@
 <body>
     <div class="container">
         <?php
-            $sql = "SELECT * FROM categorias ORDER BY nombre";
+            $sql = "SELECT * FROM categorias ORDER BY categoria";
             $resultado = $_conexion -> query($sql);
             $categorias = [];
 
             while ($registro = $resultado -> fetch_assoc()) {
-                array_push($categorias, $registro["nombre"]);
+                array_push($categorias, $registro["categoria"]);
             }
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {

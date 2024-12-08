@@ -30,7 +30,7 @@
     <div class="container">
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nombre = $_POST["nombre"];
+            $categoria = $_POST["categoria"];
             $tmp_descripcion = $_POST["descripcion"];
 
             if ($tmp_descripcion != '') {
@@ -46,7 +46,7 @@
             if (isset($descripcion)) {
                 $sql = "UPDATE categorias SET
                     descripcion = '$descripcion'
-                WHERE nombre = '$nombre'";
+                WHERE categoria = '$categoria'";
 
                 $_conexion -> query($sql);
             }
@@ -56,13 +56,13 @@
             $nombre_categorias = [];
 
             while ($registro = $resultado -> fetch_assoc()) {
-                array_push($nombre_categorias, $registro["nombre"]);
+                array_push($nombre_categorias, $registro["categoria"]);
             }
 
-            $nombre = $_GET["nombre"];
-            $sql = "SELECT * FROM categorias WHERE nombre = '$nombre'";
+            $categoria = $_GET["categoria"];
+            $sql = "SELECT * FROM categorias WHERE categoria = '$categoria'";
             $resultado = $_conexion -> query($sql);
-            $categoria = $resultado -> fetch_assoc();
+            $res = $resultado -> fetch_assoc();
         ?>
         <form action="" method="post">
             <div class="mb-3 mt-5 col-5">
@@ -70,16 +70,16 @@
             </div>
             <div class="mb-3 mt-3 col-5">                
                 <label class="form-label">Nombre</label>
-                <?php if (isset($err_nombre)) echo "<span class='error'>$err_nombre</span>" ?>
-                <input type="text" class="form-control" name = "nombre" disabled value="<?php echo $categoria["nombre"] ?>">
+                <?php if (isset($err_categoria)) echo "<span class='error'>$err_categoria</span>" ?>
+                <input type="text" class="form-control" name = "categoria" disabled value="<?php echo $res["categoria"] ?>">
             </div>
             <div class="mb-3 col-5">
                 <label class="form-label">Descripción</label>
                 <?php if (isset($err_descripcion)) echo "<span class='error'>$err_descripcion</span>" ?>
-                <input type="text" class="form-control" name = "descripcion" value="<?php echo $categoria["descripcion"] ?>">
+                <input type="text" class="form-control" name = "descripcion" value="<?php echo $res["descripcion"] ?>">
             </div>
             <div class="mb-3">
-                <input type="hidden" name="nombre" value="<?php echo $categoria["nombre"] ?>">
+                <input type="hidden" name="categoria" value="<?php echo $res["categoria"] ?>">
                 <input type="submit" class="btn btn-primary btn-sm" value="Editar">
                 <a class="btn btn-secondary btn-sm" href="index.php">Volver</a>
             </div>

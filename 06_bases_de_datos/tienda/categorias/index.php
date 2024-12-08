@@ -25,8 +25,8 @@
         <?php
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nombre = $_POST["nombre"];
-            $sql = "DELETE FROM categorias WHERE nombre = '$nombre'";
+            $categoria = $_POST["categoria"];
+            $sql = "DELETE FROM categorias WHERE categoria = '$categoria'";
             $_conexion -> query($sql);
         }
 
@@ -40,7 +40,7 @@
         <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
                 <tr>
-                    <th>Nombre</th><!-- disabled a la hora de editar, en disabled no se va a mandar en el formulario. HAbra que mandarlo con un campo oculto -->
+                    <th>Categoría</th><!-- disabled a la hora de editar, en disabled no se va a mandar en el formulario. HAbra que mandarlo con un campo oculto -->
                     <th>Descripción</th> 
                     <th></th>
                     <th></th>
@@ -53,18 +53,18 @@
                         // ["titulo"=>"Frieren, "nombre_estudio"="Pierrot"...]
                         //va a coger el nombre de las columnas que se usa en la bbdd
                         echo "<tr>";
-                        echo "<td>" . $fila["nombre"] . "</td>";
+                        echo "<td>" . $fila["categoria"] . "</td>";
                         echo "<td>" . $fila["descripcion"] . "</td>";
                         ?>
                         <!--<td>
                             <img width="100" height="160" src="">
                         </td>-->
                         <td>
-                        <a class="btn btn-primary btn-sm" href="editar_categoria.php?nombre=<?php echo $fila['nombre'] ?>">Editar</a>
+                        <a class="btn btn-primary btn-sm" href="editar_categoria.php?categoria=<?php echo $fila['categoria'] ?>">Editar</a>
                         </td>
                         <td>
                             <form action ="" method ="post">
-                                <input type="hidden" name="nombre" value="<?php echo $fila['nombre']; ?>">
+                                <input type="hidden" name="categoria" value="<?php echo $fila['categoria']; ?>">
                                 <input class="btn btn-danger btn-sm" type="submit" value="Borrar">
                             </form>
                         </td>

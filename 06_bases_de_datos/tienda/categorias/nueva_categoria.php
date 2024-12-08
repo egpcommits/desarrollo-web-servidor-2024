@@ -34,27 +34,27 @@
             $nombre_categorias = [];
 
             while ($registro = $resultado -> fetch_assoc()) {
-                array_push($nombre_categorias, $registro["nombre"]);
+                array_push($nombre_categorias, $registro["categoria"]);
             }
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $tmp_nombre = $_POST["nombre"];
+                $tmp_categoria = $_POST["categoria"];
                 $tmp_descripcion = $_POST["descripcion"];
 
-                $sql = "SELECT * FROM categorias WHERE nombre = '$tmp_nombre'"; //como mucho puede haber un usuario, como poco cero.
+                $sql = "SELECT * FROM categorias WHERE categoria = '$tmp_categoria'"; //como mucho puede haber un usuario, como poco cero.
                 $resultado = $_conexion -> query($sql);
 
-                if ($tmp_nombre != '') {
-                    string_trim($tmp_nombre);
+                if ($tmp_categoria != '') {
+                    string_trim($tmp_categoria);
                     if ($resultado -> num_rows == 0) {
-                        if (strlen($tmp_nombre) >= 2 && strlen($tmp_nombre) <= 30) {
+                        if (strlen($tmp_categoria) >= 2 && strlen($tmp_categoria) <= 30) {
                             $patron = "/^[A-Za-zÑÁÉÍÓÚñáéíóú ]+$/";
-                            if (preg_match($patron, $tmp_nombre)) {
-                                $nombre = $tmp_nombre;
-                            } else $err_nombre = "El nombre de la categoría solo puede tener letras mayúsculas, minúsculas y espacios.";
-                        } else $err_nombre = "El nombre de la categoría tiene como mínimo 2 caracteres y como máximo 30.";
-                    } else $err_nombre = "Esta categoria ya existe.";
-                } else $err_nombre = "El nombre de la categoría es obligatorio.";
+                            if (preg_match($patron, $tmp_categoria)) {
+                                $categoria = $tmp_categoria;
+                            } else $err_categoria = "El nombre de la categoría solo puede tener letras mayúsculas, minúsculas y espacios.";
+                        } else $err_categoria = "El nombre de la categoría tiene como mínimo 2 caracteres y como máximo 30.";
+                    } else $err_categoria = "Esta categoria ya existe.";
+                } else $err_categoria = "El nombre de la categoría es obligatorio.";
 
                 if ($tmp_descripcion != '') {
                     string_trim($tmp_descripcion);
@@ -67,9 +67,9 @@
                 } else $err_descripcion = "La descripción de la categoría es obligatoria.";
                 
 
-                if (isset($nombre) && isset($descripcion)) {
-                    $sql = "INSERT INTO categorias (nombre, descripcion)
-                    VALUES ('$nombre', '$descripcion')";
+                if (isset($categoria) && isset($descripcion)) {
+                    $sql = "INSERT INTO categorias (categoria, descripcion)
+                    VALUES ('$categoria', '$descripcion')";
 
                     $_conexion -> query($sql); //ejecuto la query dela conexion
                 }
@@ -80,9 +80,9 @@
                 <h2>Añadir categoria</h2>
             </div>
             <div class="mb-3 mt-3 col-5">
-                <label class="form-label">Nombre</label>
-                <?php if (isset($err_nombre)) echo "<span class='error'>$err_nombre</span>" ?>
-                <input type="text" class="form-control" name = "nombre">
+                <label class="form-label">Categoría</label>
+                <?php if (isset($err_categoria)) echo "<span class='error'>$err_categoria</span>" ?>
+                <input type="text" class="form-control" name = "categoria">
             </div>
             <div class="mb-3 col-5">
                 <label class="form-label">Descripción</label>
