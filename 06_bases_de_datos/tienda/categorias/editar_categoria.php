@@ -3,12 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Editar categoría</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <?php
         error_reporting( E_ALL );
         ini_set( "display_errors", 1 );
         require('../util/conexion.php');
+
+        function string_trim (string $cadena) : string {
+            $salida = trim(htmlspecialchars($cadena));
+            $salida = preg_replace('/\s+/', ' ', $salida);
+            return $salida;
+        }
+
+        session_start();
+        if (!isset($_SESSION["usuario"])) {
+            header("location: ../usuario/iniciar_sesion.php"); //Control de acceso. Si nohay usuario logeado, te va a mandar directamente a iniciar sesion.php
+            exit;
+        }
     ?>
     <style>
         .error {color: red; font-style: italic}
@@ -21,16 +33,8 @@
             $nombre = $_POST["nombre"];
             $tmp_descripcion = $_POST["descripcion"];
 
-            /*if ($tmp_nombre != '') {
-                if (strlen($tmp_nombre) <= 30) {
-                    $patron = "/^[A-Za-zÑÁÉÍÓÚñáéíóú ]+$/";
-                    if (preg_match($patron, $tmp_nombre)) {
-                        $nombre = $tmp_nombre;
-                    } else $err_nombre = "El nombre de la categoría solo puede tener letras mayúsculas, minúsculas y espacios.";
-                } else $err_nombre = "El nombre de la categoría tiene como máximo 30 caracteres.";
-            } else $err_nombre = "El nombre de la categoría es obligatorio.";*/
-
             if ($tmp_descripcion != '') {
+                string_trim($tmp_descripcion);
                 if (strlen($tmp_descripcion) <= 255) {
                     $patron = "/^[A-Za-z0-9ÑÁÉÍÓÚñáéíóú., ]+$/";
                     if (preg_match($patron, $tmp_descripcion)) {
@@ -60,23 +64,24 @@
             $resultado = $_conexion -> query($sql);
             $categoria = $resultado -> fetch_assoc();
         ?>
-        <form action="" method="post" enctype="multipart/form-data">
-            <!--Encripta el archivo/fichero para poder mandarlo-->
-            <div class="mb-3">
+        <form action="" method="post">
+            <div class="mb-3 mt-5 col-5">
+                <h2>Editar cagetoría</h2>
+            </div>
+            <div class="mb-3 mt-3 col-5">                
                 <label class="form-label">Nombre</label>
                 <?php if (isset($err_nombre)) echo "<span class='error'>$err_nombre</span>" ?>
                 <input type="text" class="form-control" name = "nombre" disabled value="<?php echo $categoria["nombre"] ?>">
             </div>
-            <div class="mb-3">
+            <div class="mb-3 col-5">
                 <label class="form-label">Descripción</label>
                 <?php if (isset($err_descripcion)) echo "<span class='error'>$err_descripcion</span>" ?>
                 <input type="text" class="form-control" name = "descripcion" value="<?php echo $categoria["descripcion"] ?>">
             </div>
             <div class="mb-3">
-
-            <input type="hidden" name="nombre" value="<?php echo $categoria["nombre"] ?>">
-                <input type="submit" class="btn btn-primary" value="Modificar">
-                <a class="btn btn-secondary" href="index.php">Volver</a>
+                <input type="hidden" name="nombre" value="<?php echo $categoria["nombre"] ?>">
+                <input type="submit" class="btn btn-primary btn-sm" value="Editar">
+                <a class="btn btn-secondary btn-sm" href="index.php">Volver</a>
             </div>
         </form>    
     </div>

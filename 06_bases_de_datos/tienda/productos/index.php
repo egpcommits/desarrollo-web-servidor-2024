@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda</title>
+    <title>Productos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <?php
     error_reporting( E_ALL );
@@ -20,11 +20,9 @@
 </head>
 <body>
     <div class="container">
-        <h2>Bienvenid@ <?php echo $_SESSION["usuario"] ?></h2>
-        <!--Testing193!-->
-        <a class="btn btn-warning" href="../usuario/cambiar_credenciales.php">Cambiar contraseña</a>
-        <a class="btn btn-danger" href="../usuario/iniciar_sesion.php">Cerrar sesión</a><br><br>
-        <h1>Listado de productos</h1>
+        <div class="mb-3 mt-5">
+            <h2>Productos</h2>
+        </div>
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_producto = $_POST["id_producto"];
@@ -38,6 +36,7 @@
         ?>
         <a class="btn btn-light btn-sm" href="../categorias/index.php">Cambiar a categorías</a>
         <a class="btn btn-dark btn-sm" href="nuevo_producto.php">Nuevo producto</a><br><br>
+        <a class="btn btn-outline-dark btn-sm" href="../index.php">Volver al inicio</a><br><br>
         <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
                 <tr>
@@ -64,18 +63,18 @@
                         echo "<td>" . $fila["stock"] . "</td>";
                         ?>
                         <td>
-                            <img width="100" height="160" src="<?php echo $fila["imagen"] ?>">
+                            <img width="100" height="160" src="<?php echo "../" . $fila["imagen"] ?>">
                         </td>
                         <?php
                         echo "<td>" . $fila["descripcion"] . "</td>";
                         ?>
                         <td>
-                            <a class="btn btn-primary" href="editar_producto.php?id_producto=<?php echo $fila['id_producto'] ?>">Editar</a>
+                            <a class="btn btn-primary btn-sm" href="editar_producto.php?id_producto=<?php echo $fila['id_producto'] ?>">Editar</a>
                         </td>
                         <td>
                             <form action ="" method ="post">
                                 <input type="hidden" name="id_producto" value="<?php echo $fila['id_producto']; ?>">
-                                <input class="btn btn-danger" type="submit" value="Borrar">
+                                <input class="btn btn-danger btn-sm" type="submit" value="Borrar">
                             </form>
                         </td>
                         <?php

@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda</title>
+    <title>Categorías</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <?php
     error_reporting( E_ALL );
     ini_set( "display_errors", 1 );
     require('../util/conexion.php');
+    
+    session_start();
+    if (!isset($_SESSION["usuario"])) {
+        header("location: ../usuario/iniciar_sesion.php"); //Control de acceso. Si nohay usuario logeado, te va a mandar directamente a iniciar sesion.php
+        exit;
+    }
     ?>
 </head>
 <body>
     <div class="container">
-        <h1>Listado de categorías</h1>
+        <div class="mb-3 mt-5">
+            <h2>Categorías</h2>
+        </div>
         <?php
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,6 +36,7 @@
         ?>
         <a class="btn btn-light btn-sm" href="../productos/index.php">Cambiar a productos</a>
         <a class="btn btn-dark btn-sm" href="nueva_categoria.php">Nueva categoria</a><br><br>
+        <a class="btn btn-outline-dark btn-sm" href="../index.php">Volver al inicio</a><br><br>
         <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
                 <tr>
@@ -51,12 +60,12 @@
                             <img width="100" height="160" src="">
                         </td>-->
                         <td>
-                        <a class="btn btn-primary" href="editar_categoria.php?nombre=<?php echo $fila['nombre'] ?>">Editar</a>
+                        <a class="btn btn-primary btn-sm" href="editar_categoria.php?nombre=<?php echo $fila['nombre'] ?>">Editar</a>
                         </td>
                         <td>
                             <form action ="" method ="post">
                                 <input type="hidden" name="nombre" value="<?php echo $fila['nombre']; ?>">
-                                <input class="btn btn-danger" type="submit" value="Borrar">
+                                <input class="btn btn-danger btn-sm" type="submit" value="Borrar">
                             </form>
                         </td>
                         <?php

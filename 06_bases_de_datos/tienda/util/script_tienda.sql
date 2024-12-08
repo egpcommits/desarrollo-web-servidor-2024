@@ -1,7 +1,12 @@
 CREATE SCHEMA tienda_bd;
 USE tienda_bd;
 
-DROP TABLE productos;
+DELETE FROM usuarios WHERE usuario = "estela";
+
+CREATE TABLE usuarios (
+	usuario VARCHAR(15) PRIMARY KEY,
+    contrasena VARCHAR(255) NULL
+);
 
 CREATE TABLE categorias (
 	nombre VARCHAR(30) PRIMARY KEY,
@@ -19,9 +24,4 @@ CREATE TABLE productos (
     CONSTRAINT fk_productos_categoria FOREIGN KEY (categoria) REFERENCES categorias(nombre) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO categorias VALUES ('Manga', 'Se va a borrar');
-INSERT INTO categorias VALUES ('NULL', 'De apoyo');
-
-INSERT INTO productos (nombre, precio, categoria, stock, descripcion) VALUES ('desde mysql', 1, 'Manga', 1, 'a1');
-INSERT INTO productos (nombre, precio, categoria, stock, descripcion) VALUES ('desde mysql', 2, 'Manga', 2, 'b2');
-INSERT INTO productos (nombre, precio, categoria, stock, descripcion) VALUES ('desde mysql', 3, 'Manga', 3, 'c3');
+SET sql_safe_updates = 0;

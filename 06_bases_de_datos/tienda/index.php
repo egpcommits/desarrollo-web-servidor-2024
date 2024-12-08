@@ -10,30 +10,37 @@
     ini_set( "display_errors", 1 );
     require('util/conexion.php');
 
-
     session_start();
-    if (!isset($_SESSION["usuario"])) {
-        header("location: ../usuario/iniciar_sesion.php"); //Control de acceso. Si nohay usuario logeado, te va a mandar directamente a iniciar sesion.php
-        exit;
-    }
     ?>
 </head>
 <body>
     <div class="container">
-        <h1>Listado de productos</h1>
+        <div class="mb-3 mt-5 col-4">
+                <h2>Tienda</h2>
+        </div>
         <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $id_producto = $_POST["id_producto"];
-            $sql = "DELETE FROM productos WHERE id_producto = $id_producto";
-            $_conexion -> query($sql);
-        }
+            $sql = "SELECT * FROM productos";
+            $resultado = $_conexion -> query($sql);
+            //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
 
-        $sql = "SELECT * FROM productos";
-        $resultado = $_conexion -> query($sql);
-        //Ejecuta la consulta que hemos hecho en la conexion creada. Devuelve algo parecido a un array (en caso de que vaya bien) o falso.
+            if (isset($_SESSION["usuario"])) { ?>
+                <h3>Bienvenid@ <?php echo $_SESSION["usuario"] ?></h3>
+                <form action ="" method ="post">
+                    <input type="hidden" name="usuario" value="<?php echo $_SESSION["usuario"] ?>">
+                    <a class="btn btn-warning btn-sm" href="usuario/cambiar_credenciales.php">Cambiar contraseña</a>
+                </form>
+                <br>
+                <!--<a class="btn btn-warning btn-sm" href="usuario/cambiar_credenciales.php">Cambiar contraseña</a>-->
+                <a class="btn btn-danger btn-sm" href="usuario/cerrar_sesion.php">Cerrar sesión</a><br><br>
+                <a class="btn btn-info btn-sm" href="productos/index.php">Ir a productos</a>
+                <a class="btn btn-info btn-sm" href="categorias/index.php">Ir a categorías</a><br><br>
+            <?php } else { ?>
+                <div class="mb-5 mt-5">
+                    <a class="btn btn-primary btn-sm" href="usuario/iniciar_sesion.php">Iniciar sesión</a>
+                </div>
+            <?php }
         ?>
-        <a class="btn btn-light btn-sm" href="usuario/iniciar_sesion.php">Iniciar sesión</a>
-        <a class="btn btn-dark btn-sm" href="usuario/registro.php">Registrarse</a><br><br>
+        
         <table class ="table table-striped"> <!--table-primary y se puede cambiar el color arriba-->
             <thead class = "table-dark">
                 <tr>
@@ -49,8 +56,6 @@
                 <?php
                     //trata este objeto como si fuese un array asociativo, y va a ir creando filas
                     while ($fila = $resultado -> fetch_assoc()) {
-                        // ["titulo"=>"Frieren, "nombre_estudio"="Pierrot"...]
-                        //va a coger el nombre de las columnas que se usa en la bbdd
                         echo "<tr>";
                         echo "<td>" . $fila["nombre"] . "</td>";
                         echo "<td>" . $fila["precio"] . "</td>";

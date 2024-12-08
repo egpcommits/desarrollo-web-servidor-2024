@@ -20,16 +20,23 @@
         $tmp_usuario = $_POST["usuario"];
         $tmp_contrasena = $_POST["contrasena"];
 
+        $sql = "SELECT * FROM usuarios WHERE usuario = '$tmp_usuario'"; //como mucho puede haber un usuario, como poco cero.
+        $resultado = $_conexion -> query($sql);
+
         if ($tmp_usuario != '') {
-            if (strlen($tmp_usuario) >= 3 && strlen($tmp_usuario) <= 15) {
-                $patron = "/^[0-9A-Za-z]+$/";
-                if (preg_match($patron, $tmp_usuario)) {
-                    $usuario = $tmp_usuario;
-                } else $err_usuario = "El nombre de usuario estará compuesto solo de letras y numeros.";
-            } else $err_usuario = "El nombre de usuario tendrá como mínimo 3 caracteres y como máximo 15.";
+            htmlspecialchars($tmp_usuario); //solo van fuera los html chars. El problema con los espacios se vigila en el patron. El nombre de usuario introducido no seria el mismo que el que puede ser al final.
+            if ($resultado -> num_rows == 0) {
+                if (strlen($tmp_usuario) >= 3 && strlen($tmp_usuario) <= 15) {
+                    $patron = "/^[0-9A-Za-zÑÁÉÍÓÚñáéíóú]+$/";
+                    if (preg_match($patron, $tmp_usuario)) {
+                        $usuario = $tmp_usuario;
+                    } else $err_usuario = "El nombre de usuario estará compuesto solo de letras y números.";
+                } else $err_usuario = "El nombre de usuario tendrá como mínimo 3 caracteres y como máximo 15.";
+            }  else $err_usuario = "El usuario ya existe. Introduzca un nombre distinto.";
         } else $err_usuario = "El nombre de usuario es obligatorio.";
 
         if ($tmp_contrasena != '') {
+            htmlspecialchars($tmp_contrasena); //solo van fuera los html chars. Basicamente igual que arriba.
             if (strlen($tmp_contrasena) >= 8 && strlen($tmp_contrasena) <= 15) {
                 $patron = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/";
                 if (preg_match($patron, $tmp_contrasena)) {
@@ -38,25 +45,16 @@
             } else $err_contrasena = "La nueva contraseña tiene como mínimo 8 caracteres y como maximo 15.";
         } else $err_contrasena = "La contraseña es obligatoria.";
 
-        $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'"; //como mucho puede haber un usuario, como poco cero.
-        $resultado = $_conexion -> query($sql);
-        
         if (isset($usuario) && isset($contrasena)) {
-            if ($resultado -> num_rows == 0) {
-                $contrasena_cifrada = password_hash($contrasena, PASSWORD_DEFAULT);
-                $sql = "INSERT INTO usuarios VALUES ('$usuario', '$contrasena_cifrada')";
-                $_conexion -> query($sql);
-            } else $err_usuario = "El usuario ya existe. Introduzca un nombre distinto.";
+            $contrasena_cifrada = password_hash($contrasena, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO usuarios VALUES ('$usuario', '$contrasena_cifrada')";
+            $_conexion -> query($sql);
         }
-        
-
-        
     }
     ?>
     <div class="container">
         <h1>Formulario de registro</h1>
-        <form action="" method="post" enctype="multipart/form-data">
-            <!--Encripta el archivo/fichero para poder mandarlo-->
+        <form action="" method="post">
             <div class="mb-3 col-4">
                 <label class="form-label">Usuario</label>
                 <?php if (isset($err_usuario)) echo "<span class='error'>$err_usuario</span>" ?>
@@ -68,12 +66,12 @@
                 <input type="password" class="form-control" name = "contrasena">
             </div>
             <div class="mb-3">
-                <input type="submit" class="btn btn-primary" value="Registrarse">
+                <input type="submit" class="btn btn-primary btn-sm" value="Registrarse">
             </div>
         </form>
         <br><br>
         <h5>Si ya tienes cuenta, inicia sesión.</h5>   
-        <a class="btn btn-secondary" href="iniciar_sesion.php">Iniciar sesión</a>
+        <a class="btn btn-secondary btn-sm" href="iniciar_sesion.php">Iniciar sesión</a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
