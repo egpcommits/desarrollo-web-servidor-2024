@@ -38,8 +38,24 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_anime = $_POST["id_anime"];
             //echo "<h1>$id_anime</h1>";
-            $sql = "DELETE FROM animes WHERE id_anime = '$id_anime'";
-            $_conexion -> query($sql);
+            /*$sql = "DELETE FROM animes WHERE id_anime = '$id_anime'";
+            $_conexion -> query($sql);*/
+
+            /*
+            PREPARED STATEMENT (SENTENCIAS PREPARADAS): Evita inyecciones de consultas sql. Tienen 3 fases de preparacion.
+            1. Preparación (prepare)
+            2. Enlazado (binding)
+            3. Ejecución (execute)
+            */
+
+            # 1. PREPARACION (Definimos la estructura de la sentencia)
+            $sql = $_conexion -> prepare("DELETE FROM animes WHERE id_anime = ?");
+
+            # 2. ENLAZADO (Vinculamos las interrogaciones con variables y tipos)
+            $sql -> bind_param("i", $id_anime); //le estamos diciendo que la interrogacion de arriba equivale a idanime, que es un int (i)
+
+            # 3. EJECUCION
+            $sql -> execute();
         }
 
         $sql = "SELECT * FROM animes";

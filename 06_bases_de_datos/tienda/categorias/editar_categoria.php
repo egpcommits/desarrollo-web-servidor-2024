@@ -44,11 +44,22 @@
             } else $err_descripcion = "La descripción de la categoría es obligatoria.";
 
             if (isset($descripcion)) {
-                $sql = "UPDATE categorias SET
+                /*$sql = "UPDATE categorias SET
                     descripcion = '$descripcion'
                 WHERE categoria = '$categoria'";
 
-                $_conexion -> query($sql);
+                $_conexion -> query($sql);*/
+
+                #1. Prepare
+                $sql = $_conexion -> prepare("UPDATE categorias SET
+                    descripcion = '$descripcion'
+                WHERE categoria = ?");
+
+                #2. Binding
+                $sql -> bind_param("s", $categoria);
+
+                #3. Execute
+                $sql -> execute();
             }
         }
             $sql = "SELECT * FROM categorias";
@@ -60,8 +71,14 @@
             }
 
             $categoria = $_GET["categoria"];
-            $sql = "SELECT * FROM categorias WHERE categoria = '$categoria'";
-            $resultado = $_conexion -> query($sql);
+            /*$sql = "SELECT * FROM categorias WHERE categoria = '$categoria'";
+            $resultado = $_conexion -> query($sql);*/
+
+            #1. Prepare
+            $sql = $_conexion -> prepare("SELECT * FROM categorias WHERE categoria = ?");
+
+            
+            #4. Retrieve
             $res = $resultado -> fetch_assoc();
         ?>
         <form action="" method="post">

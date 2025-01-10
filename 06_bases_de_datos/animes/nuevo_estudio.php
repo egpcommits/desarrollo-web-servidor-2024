@@ -19,10 +19,24 @@
                 $ciudad = $_POST["ciudad"];
                 $anno_fundacion = $_POST["anno_fundacion"];
 
-                $sql = "INSERT INTO estudios (nombre_estudio, ciudad, anno_fundacion)
+                /*$sql = "INSERT INTO estudios (nombre_estudio, ciudad, anno_fundacion)
                     VALUES ('$nombre_estudio', '$ciudad', $anno_fundacion)";
 
-                $_conexion -> query($sql); //ejecuto la query dela conexion
+                $_conexion -> query($sql); //ejecuto la query dela conexion*/
+
+                #1. Prepare
+                $sql = $_conexion -> prepare("INSERT INTO estudios (nombre_estudio, ciudad, anno_fundacion)
+                    VALUES (?, ?, ?)");
+
+                #2. Binding
+                $sql -> bind_param("ssi",
+                    $nombre_estudio,
+                    $ciudad,
+                    $anno_fundacion
+                );
+
+                #3. Execute
+                $sql -> execute();
             }
         ?>
         <form action="" method="post">

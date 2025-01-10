@@ -18,10 +18,19 @@
                 $fabricante = $_POST["fabricante"];
                 $pais = $_POST["pais"];
 
-                $sql = "INSERT INTO fabricantes (fabricante, pais)
+                /*$sql = "INSERT INTO fabricantes (fabricante, pais)
                     VALUES ('$fabricante', '$pais')";
 
-                $_conexion -> query($sql); //ejecuto la query dela conexion
+                $_conexion -> query($sql); //ejecuto la query dela conexion*/
+
+                #1. Prepare
+                $sql = $_conexion -> prepare("INSERT INTO fabricantes (fabricante, pais) VALUES (?, ?)");
+
+                #2. Binding
+                $sql -> bind_param("ss", $fabricante, $pais);
+
+                #3. Execute
+                $sql -> execute();
             }
         ?>
         <form action="" method="post">

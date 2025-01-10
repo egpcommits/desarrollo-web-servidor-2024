@@ -39,10 +39,27 @@
                 $nombre_imagen = $_FILES["imagen"]["name"];
                 move_uploaded_file($direccion_temporal, "imagenes/$nombre_imagen");
 
-                $sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen)
+                /*$sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen)
                     VALUES ('$titulo', '$nombre_estudio', $anno_estreno, $num_temporadas, './imagenes/$nombre_imagen')";
 
-                $_conexion -> query($sql); //ejecuto la query dela conexion
+                $_conexion -> query($sql); //ejecuto la query dela conexion*/
+
+                $imagen = './imagenes/$nombre_imagen';
+                # 1. Prepare
+                $sql =  $_conexion -> prepare("INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen)
+                    VALUES (?, ?, ?, ?, ?)");
+
+                # 2. Bindging
+                $sql -> bind_param("ssiis", 
+                    $titulo,
+                    $nombre_estudio,
+                    $anno_estreno,
+                    $num_temporadas,
+                    $imagen
+                ); //se ponen en el orden en el que esten las variables
+
+                # 3. Execute
+                $sql -> execute();
             }
         ?>
         <form action="" method="post" enctype="multipart/form-data">

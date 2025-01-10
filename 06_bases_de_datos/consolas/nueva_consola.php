@@ -20,10 +20,20 @@
                 $generacion = $_POST["generacion"];
                 $unidades_vendidas = $_POST["unidades_vendidas"];
 
-                $sql = "INSERT INTO consolas (nombre, fabricante, generacion, unidades_vendidas)
+                /*$sql = "INSERT INTO consolas (nombre, fabricante, generacion, unidades_vendidas)
                     VALUES ('$nombre', '$fabricante', $generacion, $unidades_vendidas)";
 
-                $_conexion -> query($sql); //ejecuto la query dela conexion
+                $_conexion -> query($sql); //ejecuto la query dela conexion*/
+
+                #1. Prepare
+                $sql = $_conexion -> prepare("INSERT INTO consolas (nombre, fabricante, generacion, unidades_vendidas)
+                    VALUES (?, ?, ?, ?)");
+
+                #2. Binding
+                $sql -> bind_param("ssii", $nombre, $fabricante, $generacion, $unidades_vendidas);
+
+                #3. Execute
+                $sql -> execute();
             }
         ?>
         <form action="" method="post">

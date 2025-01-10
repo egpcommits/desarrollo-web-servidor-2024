@@ -21,14 +21,28 @@
             $num_temporadas = $_POST["num_temporadas"];
             $anno_estreno = $_POST["anno_estreno"];
 
-            $sql = "UPDATE animes SET
+            /*$sql = "UPDATE animes SET
                 titulo = '$titulo',
                 nombre_estudio = '$nombre_estudio',
                 anno_estreno = $anno_estreno,
                 num_temporadas = $num_temporadas
             WHERE id_anime = $id_anime";
 
-            $_conexion -> query($sql);
+            $_conexion -> query($sql);*/
+
+            #1. Prepare
+            $sql = $_conexion -> prepare("UPDATE animes SET
+                    titulo = '$titulo',
+                    nombre_estudio = '$nombre_estudio',
+                    anno_estreno = $anno_estreno,
+                    num_temporadas = $num_temporadas
+                WHERE id_anime = ?");
+
+            #2. Binding
+            $sql -> bind_param("i", $id_anime);
+
+            #3. Execute
+            $sql -> execute();
         }
             $sql = "SELECT * FROM estudios ORDER BY nombre_estudio";
             $resultado = $_conexion -> query($sql);
@@ -42,9 +56,20 @@
 
             echo "<h1>" . $_GET["id_anime"] . "</h1>";
 
-            $id_anime = $_GET["id_anime"];
+            /*$id_anime = $_GET["id_anime"];
             $sql = "SELECT * FROM animes WHERE id_anime = '$id_anime'";
-            $resultado = $_conexion -> query($sql);
+            $resultado = $_conexion -> query($sql);*/
+
+            #1. Prepare
+            $sql = $_conexion -> prepare("SELECT * FROM animes WHERE id_anime = ?");
+
+            #2. Binding
+            $sql -> bind_param("i", $id_anime);
+
+            #3. Execute
+            $sql -> execute();
+
+            #4. Retrieve
             $anime = $resultado -> fetch_assoc(); //en anime estará toda la informacion del unico resultado que obtenemos.
         ?>
         <form action="" method="post" enctype="multipart/form-data">

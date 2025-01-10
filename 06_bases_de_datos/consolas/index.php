@@ -17,8 +17,17 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_consola = $_POST["id_consola"];
             echo "<h1>$id_consola</h1>";
-            $sql = "DELETE FROM consolas WHERE id_consola = '$id_consola'";
-            $_conexion -> query($sql);
+            /*$sql = "DELETE FROM consolas WHERE id_consola = '$id_consola'";
+            $_conexion -> query($sql);*/
+
+            #1. Prepare
+            $sql = $_conexion -> prepare("DELETE FROM consolas WHERE id_consola = ?");
+
+            #2. Binding
+            $sql -> bind_param("i", $id_consola);
+
+            #3. Execute
+            $sql -> execute();
         }
 
 

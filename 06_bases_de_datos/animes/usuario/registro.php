@@ -21,8 +21,17 @@
         //de la contraseña cifrada no se sabe cuantos caracteres son
         //PASSWORD_DEFAULT: this constant is designed to change over time as new and stronger algorithms are added to PHP. For that reason, the length of the result from using this identifier can change over time. Therefore, it is recommended to store the result in a database column that can expand beyond 60 characters (255 characters would be a good choice).
 
-        $sql = "INSERT INTO usuarios VALUES ('$usuario', '$contrasena_cifrada')";
-        $_conexion -> query($sql);
+        /*$sql = "INSERT INTO usuarios VALUES ('$usuario', '$contrasena_cifrada')";
+        $_conexion -> query($sql);*/
+
+        #1. Prepare
+        $sql = $_conexion -> prepare("INSERT INTO usuarios VALUES (?, ?)");
+
+        #2. Binding
+        $sql -> bind_param("ss", $usuario, $contrasena_cifrada);
+
+        #3. Execute
+        $sql -> execute();
     }
     ?>
     <div class="container">
