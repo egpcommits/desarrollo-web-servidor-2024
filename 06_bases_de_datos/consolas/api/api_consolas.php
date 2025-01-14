@@ -27,7 +27,7 @@
 
     function manejarGet($_conexion) { //select
         //echo json_encode(["metodo" => "get"]);
-        $sql = "SELECT * FROM estudios";
+        $sql = "SELECT * FROM consolas";
         $stmt = $_conexion -> prepare($sql);
         $stmt -> execute(); //statement
         $resultado = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -36,55 +36,40 @@
 
     function manejarPost($_conexion, $entrada) { //insertar
         //echo json_encode(["metodo" => "post"]);
-        $sql = "INSERT INTO estudios VALUES (:nombre_estudio, :ciudad, :anno_fundacion)";
+        $sql = "INSERT INTO consolas (nombre, fabricante, generacion, unidades_vendidas) VALUES (:nombre, :fabricante, :generacion, :unidades_vendidas)";
         //en vez de poner interrogacion, se usan dos puntos y el nombre de la variable correspondiente
         $stmt = $_conexion -> prepare($sql);
         $stmt -> execute([
             //pilla la variable (lo que esta entre comillas) de la query y el valor (comillas despues de la flecha) lo pilla del formulario
-            "nombre_estudio" => $entrada["nombre_estudio"],            
-            "ciudad" => $entrada["ciudad"],
-            "anno_fundacion" => $entrada["anno_fundacion"]
+            "nombre" => $entrada["nombre"],
+            "fabricante" => $entrada["fabricante"],            
+            "generacion" => $entrada["generacion"],
+            "unidades_vendidas" => $entrada["unidades_vendidas"]
         ]);
         
         if ($stmt) { //si se ha ejecutado bien
-            echo json_encode(["mensaje" => "El estudio se ha creado."]);
+            echo json_encode(["mensaje" => "La consola se ha creado."]);
         } else {
-            echo json_encode(["mensaje" => "Error al crear el estudio."]);
+            echo json_encode(["mensaje" => "Error al crear la consola."]);
         }
     }
 
     function manejarPut($_conexion, $entrada) {
-        //echo json_encode(["metodo" => "put"]);
-        $sql = "UPDATE estudios SET
-            ciudad = :ciudad,
-            anno_fundacion = :anno_fundacion
-            WHERE nombre_estudio = :nombre_estudio";
-        $stmt = $_conexion -> prepare($sql);
-        $stmt -> execute([
-            "ciudad" => $entrada["ciudad"],
-            "anno_fundacion" => $entrada["anno_fundacion"],
-            "nombre_estudio" => $entrada["nombre_estudio"]
-        ]);
-
-        if ($stmt) {
-            echo json_encode(["mensaje" => "El estudio se ha modificado."]);
-        } else {
-            echo json_encode(["mensaje" => "Error al modificar el estudio."]);
-        }
+        echo json_encode(["metodo" => "put"]);
     }
 
     function manejarDelete($_conexion, $entrada) {
         //echo json_encode(["metodo" => "delete"]);
-        $sql = "DELETE FROM estudios WHERE nombre_estudio = :nombre_estudio";
+        $sql = "DELETE FROM animes WHERE id_anime = :id_anime";
         $stmt = $_conexion -> prepare($sql);
         $stmt -> execute([
-            "nombre_estudio" => $entrada["nombre_estudio"]
+            "id_anime" => $entrada["id_anime"]
         ]);
 
         if ($stmt) {
-            echo json_encode(["mensaje" => "El estudio se ha borrado."]);
+            echo json_encode(["mensaje" => "El anime se ha borrado."]);
         } else {
-            echo json_encode(["mensaje" => "Error al borrar el estudio."]);
+            echo json_encode(["mensaje" => "Error al borrar el anime."]);
         }
     }
 ?>
