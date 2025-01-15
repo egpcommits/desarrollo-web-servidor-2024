@@ -70,6 +70,8 @@
             $sql -> execute();
 
             #4. Retrieve
+            $resultado = $sql -> get_result();
+
             $anime = $resultado -> fetch_assoc(); //en anime estará toda la informacion del unico resultado que obtenemos.
         ?>
         <form action="" method="post" enctype="multipart/form-data">
