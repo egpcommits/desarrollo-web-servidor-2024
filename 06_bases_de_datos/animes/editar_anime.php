@@ -32,14 +32,15 @@
 
             #1. Prepare
             $sql = $_conexion -> prepare("UPDATE animes SET
-                    titulo = '$titulo',
-                    nombre_estudio = '$nombre_estudio',
-                    anno_estreno = $anno_estreno,
-                    num_temporadas = $num_temporadas
+                titulo = ?,
+                nombre_estudio = ?,
+                anno_estreno = ?,
+                num_temporadas = ?
                 WHERE id_anime = ?");
+            //Se pone interrogacion a cualquier campo que vaya a recibir / tenga que recibir valores
 
             #2. Binding
-            $sql -> bind_param("i", $id_anime);
+            $sql -> bind_param("ssiii", $titulo, $nombre_estudio, $anno_estreno, $num_temporadas, $id_anime);
 
             #3. Execute
             $sql -> execute();
@@ -56,8 +57,8 @@
 
             echo "<h1>" . $_GET["id_anime"] . "</h1>";
 
-            /*$id_anime = $_GET["id_anime"];
-            $sql = "SELECT * FROM animes WHERE id_anime = '$id_anime'";
+            $id_anime = $_GET["id_anime"];
+            /*$sql = "SELECT * FROM animes WHERE id_anime = '$id_anime'";
             $resultado = $_conexion -> query($sql);*/
 
             #1. Prepare
