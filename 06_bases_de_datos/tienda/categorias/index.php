@@ -26,8 +26,17 @@
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $categoria = $_POST["categoria"];
-            $sql = "DELETE FROM categorias WHERE categoria = '$categoria'";
-            $_conexion -> query($sql);
+            /*$sql = "DELETE FROM categorias WHERE categoria = '$categoria'";
+            $_conexion -> query($sql);*/
+
+            #1. Prepare
+            $sql = prepare("DELETE FROM categorias WHERE categoria = ?");
+
+            #2. Binding
+            $sql -> bind_param("s", $categoria);
+
+            #3, Execute
+            $sql -> execute();
         }
 
         $sql = "SELECT * FROM categorias";

@@ -26,8 +26,17 @@
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_producto = $_POST["id_producto"];
-            $sql = "DELETE FROM productos WHERE id_producto = $id_producto";
-            $_conexion -> query($sql);
+            /*$sql = "DELETE FROM productos WHERE id_producto = $id_producto";
+            $_conexion -> query($sql);*/
+
+            #1. Prepare
+            $sql = $_conexion -> prepare("DELETE FROM productos WHERE id_producto = ?");
+
+            #2. Binding
+            $sql -> bind_param("i", $id_producto);
+
+            #3. Execute
+            $sql -> execute();
         }
 
         $sql = "SELECT * FROM productos";

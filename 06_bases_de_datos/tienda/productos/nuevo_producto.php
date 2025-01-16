@@ -104,15 +104,26 @@
                         $direccion_temporal = $_FILES["imagen"]["tmp_name"];
                         $nombre_imagen = $_FILES["imagen"]["name"];
                         move_uploaded_file($direccion_temporal, "../imagenes/$nombre_imagen");
+                        $imagen = "imagenes/$nombre_imagen";
                     } else $err_imagen = "El tipo de la imagen es erróneo.";
                 } else $err_imagen = "La imagen es obligatoria.";
 
 
                 if (isset($nombre) && isset($precio) && isset($categoria) && isset($stock) && isset($descripcion) && isset($nombre_imagen)) {
-                    $sql = "INSERT INTO productos (nombre, precio, categoria, stock, imagen, descripcion)
+                    /*$sql = "INSERT INTO productos (nombre, precio, categoria, stock, imagen, descripcion)
                     VALUES ('$nombre', $precio, '$categoria', $stock, 'imagenes/$nombre_imagen', '$descripcion')";
 
-                    $_conexion -> query($sql); //ejecuto la query dela conexion
+                    $_conexion -> query($sql); //ejecuto la query dela conexion*/
+
+                    #1. Prepare
+                    $sql = $_conexion -> prepare("INSERT INTO productos (nombre, precio, categoria, stock, imagen, descripcion)
+                    VALUES (?, ?, ?, ?, ?, ?)");
+
+                    #2. Binding
+                    $sql -> bind_param("sisiss", $nombre, $precio, $categoria, $stock, $imagen, $descripcion);
+
+                    #3. Execute
+                    $sql -> execute();
                 }
             }
         ?>

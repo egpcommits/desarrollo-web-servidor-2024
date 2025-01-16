@@ -39,8 +39,21 @@
 
             $id_producto = $_GET["id_producto"];
 
-            $sql = "SELECT * FROM productos WHERE id_producto = $id_producto";
-            $resultado = $_conexion -> query($sql);
+            /*$sql = "SELECT * FROM productos WHERE id_producto = $id_producto";
+            $resultado = $_conexion -> query($sql);*/
+
+            #1. Prepare
+            $sql = $_conexion -> prepare("SELECT * FROM productos WHERE id_producto = ?");
+
+            #2. Binding
+            $sql -> bind_param("i", $id_producto);
+
+            #3. Execute
+            $sql -> execute();
+
+            #4. Retrieve
+            $resultado = $sql -> get_result();
+
             $producto = $resultado -> fetch_assoc();
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -106,7 +119,7 @@
                 
 
                 if (isset($nombre) && isset($precio) && isset($categoria) && isset($stock) && isset($descripcion)) {
-                    $sql = "UPDATE productos SET
+                    /*$sql = "UPDATE productos SET
                         nombre = '$nombre',
                         precio = $precio,
                         categoria = '$categoria',
@@ -114,7 +127,22 @@
                         descripcion = '$descripcion'
                     WHERE id_producto = $id_producto";
 
-                    $_conexion -> query($sql);
+                    $_conexion -> query($sql);*/
+
+                    #1. Prepare
+                    $sql = $_conexion -> prepare("UPDATE productos SET
+                        nombre = ?,
+                        precio = ?,
+                        categoria = ?,
+                        stock = ?,
+                        descripcion = ?
+                    WHERE id_producto = ?");
+
+                    #2. Binding
+                    $sql -> bind_param("sisisi", $nombre, $precio, $categoria, $stock, $descripcion, $id_producto);
+
+                    #3. Execute
+                    $sql -> execute();
                 }
             } 
         ?>

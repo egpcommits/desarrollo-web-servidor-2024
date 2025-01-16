@@ -41,8 +41,20 @@
                 $tmp_categoria = $_POST["categoria"];
                 $tmp_descripcion = $_POST["descripcion"];
 
-                $sql = "SELECT * FROM categorias WHERE categoria = '$tmp_categoria'"; //como mucho puede haber un usuario, como poco cero.
-                $resultado = $_conexion -> query($sql);
+                /*$sql = "SELECT * FROM categorias WHERE categoria = '$tmp_categoria'"; //como mucho puede haber un usuario, como poco cero.
+                $resultado = $_conexion -> query($sql);*/
+
+                #1. Prepare
+                $sql = $_conexion -> prepare("SELECT * FROM categorias WHERE categoria = ?");
+
+                #2. Binding
+                $sql -> bind_param("s", $tmp_categoria);
+
+                #3. Execute
+                $sql -> execute();
+
+                #4. Retrieve
+                $resultado = $sql -> get_result();
 
                 if ($tmp_categoria != '') {
                     string_trim($tmp_categoria);
@@ -68,10 +80,19 @@
                 
 
                 if (isset($categoria) && isset($descripcion)) {
-                    $sql = "INSERT INTO categorias (categoria, descripcion)
+                    /*$sql = "INSERT INTO categorias (categoria, descripcion)
                     VALUES ('$categoria', '$descripcion')";
 
-                    $_conexion -> query($sql); //ejecuto la query dela conexion
+                    $_conexion -> query($sql); //ejecuto la query dela conexion*/
+
+                    #1. Prepare
+                    $sql = $_conexion -> prepare("INSERT INTO categorias VALUES (?, ?)");
+
+                    #2. Binding
+                    $sql -> bind_param("ss", $categoria, $descripcion);
+
+                    #3. Execute
+                    $sql -> execute();
                 }
             }
         ?>

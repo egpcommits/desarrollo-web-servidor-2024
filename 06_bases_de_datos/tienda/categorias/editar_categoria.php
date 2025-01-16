@@ -77,8 +77,16 @@
             #1. Prepare
             $sql = $_conexion -> prepare("SELECT * FROM categorias WHERE categoria = ?");
 
+            #2. Binding
+            $sql -> bind_param("s", $categoria); //s porque categoria es un string
+
+            #3. Execute
+            $sql -> execute();
             
             #4. Retrieve
+            $resultado = $sql -> get_result();
+
+
             $res = $resultado -> fetch_assoc();
         ?>
         <form action="" method="post">
