@@ -27,11 +27,36 @@
 
     function manejarGet($_conexion) { //select
         //echo json_encode(["metodo" => "get"]);
-        $sql = "SELECT * FROM estudios";
-        $stmt = $_conexion -> prepare($sql);
-        $stmt -> execute(); //statement
+
+        //si se busca una ciudad y existe, se muestran esos registros
+        if (isset($_GET["ciudad"]) && isset($_GET["anno_fundacion"])) { //están los dos paramentros
+            $sql = "SELECT * FROM estudios WHERE anno_fundacion = :anno_fundacion AND ciudad = :ciudad";
+            $stmt = $_conexion -> prepare($sql);
+            $stmt -> execute([
+                "anno_fundacion" => $_GET["anno_fundacion"],
+                "ciudad" => $_GET["ciudad"]
+            ]);
+        } else if (isset($_GET["anno_fundacion"])) { //solo esta el año de fundacion
+            $sql = "SELECT * FROM estudios WHERE anno_fundacion = :anno_fundacion";
+            $stmt = $_conexion -> prepare($sql);
+            $stmt -> execute([
+                "anno_fundacion" => $_GET["anno_fundacion"]
+            ]);
+        } else if (isset($_GET["ciudad"])) { //solo esta la ciudad
+            $sql = "SELECT * FROM estudios WHERE ciudad = :ciudad";
+            $stmt = $_conexion -> prepare($sql);
+            $stmt -> execute([
+                "ciudad" => $_GET["ciudad"]
+            ]);
+        } else { //si no se encuentra la ciudad, saca los resultados que sean nulo (array vacio)
+            $sql = "SELECT * FROM estudios";
+            $stmt = $_conexion -> prepare($sql);
+            $stmt -> execute(); //statement
+        }
+        
         $resultado = $stmt -> fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($resultado);
+        //echo json_encode(["ciudad" => $_GET["ciudad"]]); //se hace consulta desde postman
     }
 
     function manejarPost($_conexion, $entrada) { //insertar
