@@ -98,14 +98,18 @@
     </h1>
     <div class="row mt-5 mb-5">
         <?php 
-        if ($anterior == 0) {?>
+        if ($anterior != 0) {?>
             <div class="col-3 offset-4">
                 <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $anterior ?>">Anterior</a>
             </div>   
-        <?php } ?>  
-        <div class="col-3">
+            <div class="col-3">
             <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $siguiente ?>">Siguiente</a>
         </div>
+        <?php } else { ?>  
+        <div class="col-3 offset-7">
+            <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $siguiente ?>">Siguiente</a>
+        </div>
+        <?php } ?>
     </div>
 </body>
 </html>
