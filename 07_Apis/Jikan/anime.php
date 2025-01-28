@@ -31,12 +31,14 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <?php
-
+        if (!isset($_GET["mal_id"])) {
+            header("location: top_anime.php");
+        }
         $id = intval($_GET["mal_id"]);
 
         //rint_r(var_dump($id));
 
-        $url = "https://api.jikan.moe/v4/anime/" . $id;
+        $url = "https://api.jikan.moe/v4/anime/$id/full";
 
         $curl = curl_init(); //inicia el curl
         curl_setopt($curl, CURLOPT_URL, $url); //se le pasa la url
@@ -87,11 +89,47 @@
                 <p>Número de episodios: <?php echo $animes["episodes"] ?></p>
             </div>
         </div>
+        <div class="row">
+            <div class="col-3">
+                <p>Géneros: 
+                    <ul>
+                        <?php foreach($animes["genres"] as $anime) { ?>                         
+                            <li><?php echo $anime["name"]; ?></li>
+                        <?php } ?>                        
+                    </ul>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Productoras: 
+                    <ul>
+                        <?php foreach($animes["producers"] as $anime) { ?>                         
+                            <li><?php echo $anime["name"]; ?></li>
+                        <?php } ?>                        
+                    </ul>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Relacionados: 
+                    <ul>
+                        <?php foreach($animes["relations"] as $anime) { 
+                            foreach($anime["entry"] as $relacion) { 
+                                if ($relacion["type"] == "anime") { ?>
+                                <li><?php echo $relacion["name"]; ?></li>
+                                <?php } ?>
+                            <?php } ?>                            
+                        <?php } ?>                        
+                    </ul>
+                </p>
+            </div>
+        </div>
         <div class="row mt-5">
             <div class="col offset-4 mt-5 mb-5">
                 <iframe width="600" height="350" src="<?php echo $animes['trailer']['embed_url'] ?>" allowfullscreen></iframe>
-            </div>
-            
+            </div>            
         </div>
     </div>
 </body>

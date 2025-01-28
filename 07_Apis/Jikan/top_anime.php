@@ -31,7 +31,14 @@
         }
     </style>
     <?php
-        $url = "https://api.jikan.moe/v4/top/anime";
+        if(!isset($_GET["page"])) {
+            $pagina = 1;
+            $url = "https://api.jikan.moe/v4/top/anime";
+        } else {
+            $pagina = $_GET["page"];
+            $url = "https://api.jikan.moe/v4/top/anime?page=$pagina";
+        }
+        
 
         $curl = curl_init(); //inicia el curl
         curl_setopt($curl, CURLOPT_URL, $url); //se le pasa la url
@@ -46,6 +53,18 @@
     ?>
     <div class="container">
         <h1 class="mt-5 text-center">TOP ANIME</h1>
+        <div class="row mt-5 mb-5">
+            <div class="col offset-2">
+                <input type="radio" name="filtro" value="todo"> Todo
+            </div>
+            <div class="col">
+                <input type="radio" name="filtro" value="tv"> Serie de TV
+            </div>
+            <div class="col">
+                <input type="radio" name="filtro" value="movies"> Películas
+            </div>
+        </div>
+        
         <table class="table table-hover table-striped mt-5 align-middle">
             <thead>
                 <tr class="text-center">
@@ -70,6 +89,23 @@
             </tbody>
         </table>
     </div>
-    
+    <h1>
+        <?php
+        
+        $siguiente = $pagina+1;
+        $anterior = $pagina-1;
+        ?>
+    </h1>
+    <div class="row mt-5 mb-5">
+        <?php 
+        if ($anterior == 0) {?>
+            <div class="col-3 offset-4">
+                <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $anterior ?>">Anterior</a>
+            </div>   
+        <?php } ?>  
+        <div class="col-3">
+            <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $siguiente ?>">Siguiente</a>
+        </div>
+    </div>
 </body>
 </html>
