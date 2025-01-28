@@ -49,13 +49,16 @@
         $datos = json_decode($respuesta, true); //para pasar de json a array
         $animes = $datos["data"]; //se accede al apartado data del json
 
+        $tipo = $_GET["type"];
+        $pagina = $_GET["page"];
+
         
     ?>
 
     <div class="container">
         <div class="row mt-5">
             <div class="col">
-                <a class="btn btn-success btn-sm" href="top_anime.php">Volver</a>
+                <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $pagina ?>&type=<?php echo $tipo ?>">Volver</a>
             </div>
         </div>
         <div class="row mt-5">
@@ -127,7 +130,7 @@
             </div>
         </div>
         <div class="row mt-5">
-            <div class="col offset-4 mt-5 mb-5">
+            <div class="col offset-3 mt-5 mb-5">
                 <iframe width="600" height="350" src="<?php echo $animes['trailer']['embed_url'] ?>" allowfullscreen></iframe>
             </div>            
         </div>

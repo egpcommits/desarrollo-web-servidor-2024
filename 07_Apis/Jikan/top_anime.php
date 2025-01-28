@@ -31,13 +31,22 @@
         }
     </style>
     <?php
+        
+        if (isset($_GET["type"])) {
+            if ($_GET["type"] == "") $tipo = "";
+            else if ($_GET["type"] == "tv") $tipo = "tv";
+            else if ($_GET["type"] == "movie") $tipo = "movie"; 
+        } else {
+            $tipo = "";
+        }
+
+
         if(!isset($_GET["page"])) {
             $pagina = 1;
-            $url = "https://api.jikan.moe/v4/top/anime";
         } else {
-            $pagina = $_GET["page"];
-            $url = "https://api.jikan.moe/v4/top/anime?page=$pagina";
+            $pagina = $_GET["page"];            
         }
+        $url = "https://api.jikan.moe/v4/top/anime?page=$pagina&type=$tipo";
         
 
         $curl = curl_init(); //inicia el curl
@@ -53,17 +62,22 @@
     ?>
     <div class="container">
         <h1 class="mt-5 text-center">TOP ANIME</h1>
-        <div class="row mt-5 mb-5">
-            <div class="col offset-2">
-                <input type="radio" name="filtro" value="todo"> Todo
+        <form action="" method="get">
+            <div class="row mt-5 mb-5">            
+                <div class="col offset-2">
+                    <input type="radio" name="type" value=""> Todo <!-- type="" -->
+                </div>
+                <div class="col">
+                    <input type="radio" name="type" value="tv"> Serie de TV <!-- type="tv" -->
+                </div>
+                <div class="col">
+                    <input type="radio" name="type" value="movie"> Películas <!-- type="movie" -->
+                </div>
+                <div class="col">
+                    <input type="submit" value="Filtrar">
+                </div>                       
             </div>
-            <div class="col">
-                <input type="radio" name="filtro" value="tv"> Serie de TV
-            </div>
-            <div class="col">
-                <input type="radio" name="filtro" value="movies"> Películas
-            </div>
-        </div>
+        </form> 
         
         <table class="table table-hover table-striped mt-5 align-middle">
             <thead>
@@ -83,31 +97,28 @@
                             <td><?php echo $anime["title"] ?></td>
                             <td class="text-center"><?php echo $anime["score"] ?></td>
                             <td class="text-center"><img src="<?php echo $anime["images"]["jpg"]["image_url"] ?>"></td>
-                            <td class="text-center"><a class="btn btn-success btn-sm" href="anime.php?mal_id=<?php echo $anime['mal_id'] ?>">Enlace</a></td>
+                            <td class="text-center"><a class="btn btn-success btn-sm" href="anime.php?mal_id=<?php echo $anime['mal_id'] ?>&page=<?php echo $pagina ?>&type=<?php echo $tipo ?>">Enlace</a></td>
                         </tr>
                 <?php } ?>
             </tbody>
         </table>
     </div>
-    <h1>
-        <?php
-        
-        $siguiente = $pagina+1;
-        $anterior = $pagina-1;
+        <?php        
+            $siguiente = $pagina+1;
+            $anterior = $pagina-1;
         ?>
-    </h1>
     <div class="row mt-5 mb-5">
         <?php 
         if ($anterior != 0) {?>
             <div class="col-3 offset-4">
-                <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $anterior ?>">Anterior</a>
+                <a class="btn btn-warning btn-sm" href="top_anime.php?page=<?php echo $anterior ?>&type=<?php echo $tipo ?>">Anterior</a>
             </div>   
             <div class="col-3">
-            <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $siguiente ?>">Siguiente</a>
+            <a class="btn btn-warning btn-sm" href="top_anime.php?page=<?php echo $siguiente ?>&type=<?php echo $tipo ?>">Siguiente</a>
         </div>
         <?php } else { ?>  
         <div class="col-3 offset-7">
-            <a class="btn btn-success btn-sm" href="top_anime.php?page=<?php echo $siguiente ?>">Siguiente</a>
+            <a class="btn btn-warning btn-sm" href="top_anime.php?page=<?php echo $siguiente ?>&type=<?php echo $tipo ?>">Siguiente</a>
         </div>
         <?php } ?>
     </div>
