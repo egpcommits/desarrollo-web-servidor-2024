@@ -1,0 +1,3 @@
+agentes.php -> mostrará en una tabla una lista con los nombres de todos los agentes de valorant, junto con su rol en el juego, icono del agente y un enlace que llevará a datos_agente.php, donde habrá más informacion.
+
+datos_agente.php -> se mostrará nombre, rol, descripcion del personaje, el fullart, y una lista de sus habilidades con descripcion.
