@@ -21,10 +21,27 @@
 
         $datos = json_decode($respuesta, true); //para pasar de json a array
         $perritos = $datos["message"]; //se accede al apartado data del json
+
+        if (isset($_GET["raza"]) && $_GET["raza"] != "") {
+            $raza = $_GET["raza"];
+
+            $url2 = "https://dog.ceo/api/breed/$raza/images/random";
+    
+            $curl = curl_init(); //inicia el curl
+            curl_setopt($curl, CURLOPT_URL, $url2); //se le pasa la url
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); //por si hubiese que recibir datos
+            $resultado = curl_exec($curl); //se ejecuta el curl
+            curl_close($curl); //se indica el curl a cerrar
+    
+            $data = json_decode($resultado, true); //para pasar de json a array
+            $imagen = $data["message"]; //se accede al apartado data del json
+        }
+        
     ?>
 
     <form action="" method="get">
-        <select>        
+        <select name="raza">
+            <option value="" selected>Escoge una raza</option>      
             <?php 
                 foreach($perritos as $perrito => $subraza) { //clave => valor
                     //perrito -> raza
@@ -33,14 +50,16 @@
                         foreach($subraza as $raza) {
                                 $breed = ucfirst($raza);
                             ?>
-                            <option value="<?php echo "$doggie $breed" ?>"><?php echo "$doggie $breed" ?></option>;
+                            <option value="<?php echo $perrito . "/" . $raza ?>"><?php echo "$breed $doggie" ?></option>
                         <?php }
                     } else { ?>
-                        <option value="<?php echo "$doggie" ?>"><?php echo $doggie?></option>;                
+                        <option value="<?php echo "$perrito" ?>"><?php echo $doggie ?></option>                
                     <?php }                    
                 }
             ?>
         </select>
+        <input type="submit" value="Mostrar foto"><br><br>
+        <img src="<?php if (isset($_GET["raza"]) && $_GET["raza"] != "") echo $imagen ?>">
     </form>
 </body>
 </html>
