@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agentes de Valorant</title>
+    <title>Valorant Agents</title>
     <link href="bootstrap.css" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/valorant" rel="stylesheet">
     <?php
@@ -44,7 +44,7 @@
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
         <img id="icono-riot" src="imagenes/riot.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="navbar-brand" href="#">RIOT</a>
+        <a class="navbar-brand" href="https://www.riotgames.com/es">RIOT</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -56,13 +56,16 @@
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Weapons</a>
+            <a class="nav-link" href="weapons.php">Weapons</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="playercards.php">Playercards</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Maps</a>
+            <a class="nav-link" href="buddies.php">Buddies</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="maps.php">Maps</a>
             </li>
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>

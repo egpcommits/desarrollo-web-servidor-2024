@@ -3,31 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playercards</title>
+    <title>Skins</title>
     <link href="bootstrap.css" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/valorant" rel="stylesheet">
     <?php
         error_reporting( E_ALL );
         ini_set( "display_errors", 1 );
     ?>
-    <style>
-
-        #icono-riot {
-            width: 30px;
-            margin-left: 10px;
-        }
-
-        .tarjetas {
-            /*width: 268px;
-            height: 640px;*/
-            width:240px;
-            height: 600px;
+    <style>        
+        #imagenes {
+            width: 300px;
+            height: 100px;
         }
 
         * {            
             font-family: 'VALORANT', sans-serif;
-        }   
-        
+        }
+
         #icono-riot {
             width: 30px;
             margin-left: 10px;
@@ -37,7 +29,8 @@
 </head>
 <body>
     <?php
-        $url = "https://valorant-api.com/v1/playercards";   
+        $uuid = $_GET["uuid"];
+        $url = "https://valorant-api.com/v1/weapons/$uuid";   
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -46,7 +39,7 @@
         curl_close($curl);
 
         $datos = json_decode($respuesta, true);
-        $tarjetas = $datos["data"];
+        $skins = $datos["data"];
     ?>
 
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
@@ -95,14 +88,32 @@
     </nav>
 
     <div class="container">
-        <div class="row">
-        <?php foreach($tarjetas as $tarjeta) { ?>            
-            <div class="col-3 mt-5 mb-5 text-center">
-                <img class="tarjetas" src="<?php echo $tarjeta['largeArt'] ?>"><br>
-                <div class="mt-3"><?php echo $tarjeta["displayName"] ?></div>
-            </div>                                 
-        <?php } ?>
-        </div>
+        <form action="" method="get">
+            <table class="table align-middle text-center mt-5">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                    </tr>                    
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($skins["skins"] as $skin) {  ?>
+                        <tr>
+                            <td><?php echo $skin["displayName"]?></td>
+                            <td><img id="imagenes" src="<?php echo $skin["displayIcon"] ?>" alt="skin">
+                                <?php
+                                    foreach($skin["chromas"] as $chroma) { 
+                                        if ($chroma["displayIcon"] != null) { ?>
+                                            <img id="imagenes" src="<?php echo $chroma["displayIcon"] ?>" alt="skin">
+                                        <?php } 
+                                    } ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playercards</title>
+    <title>Buddies</title>
     <link href="bootstrap.css" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/valorant" rel="stylesheet">
     <?php
@@ -17,11 +17,11 @@
             margin-left: 10px;
         }
 
-        .tarjetas {
+        .buddies {
             /*width: 268px;
             height: 640px;*/
-            width:240px;
-            height: 600px;
+            width: 128px;
+            height: 128px;
         }
 
         * {            
@@ -37,7 +37,7 @@
 </head>
 <body>
     <?php
-        $url = "https://valorant-api.com/v1/playercards";   
+        $url = "https://valorant-api.com/v1/buddies";   
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -46,7 +46,7 @@
         curl_close($curl);
 
         $datos = json_decode($respuesta, true);
-        $tarjetas = $datos["data"];
+        $buddies = $datos["data"];
     ?>
 
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
@@ -94,13 +94,15 @@
     </div>
     </nav>
 
-    <div class="container">
-        <div class="row">
-        <?php foreach($tarjetas as $tarjeta) { ?>            
-            <div class="col-3 mt-5 mb-5 text-center">
-                <img class="tarjetas" src="<?php echo $tarjeta['largeArt'] ?>"><br>
-                <div class="mt-3"><?php echo $tarjeta["displayName"] ?></div>
-            </div>                                 
+    <div class="container text-center">
+        <div class="row mt-5">
+        <?php foreach($buddies as $buddie) { ?>   
+            <div class="card border-danger mb-3 col-2 me-3" style="max-width: 24rem;">
+                <div class="card-body">
+                    <p class="card-title"><?php echo $buddie["displayName"] ?></p>
+                    <img class="buddies" src="<?php echo $buddie['displayIcon'] ?>"><br>
+                </div>
+            </div>                                
         <?php } ?>
         </div>
     </div>

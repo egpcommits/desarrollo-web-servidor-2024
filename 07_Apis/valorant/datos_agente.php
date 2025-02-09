@@ -11,15 +11,18 @@
         ini_set( "display_errors", 1 );
     ?>
     <style>
-        img {
+        #imagen {
             width: 400px;
             height: 400px;
         }
 
-        
-
         * {            
             font-family: 'VALORANT', sans-serif;
+        }
+
+        #icono-riot {
+            width: 30px;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -38,27 +41,31 @@
         $agente = $datos["data"];        
     ?>
 
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">VALORANT</a>
+        <img id="icono-riot" src="imagenes/riot.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="navbar-brand" href="https://www.riotgames.com/es">RIOT</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav me-auto">
             <li class="nav-item">
-            <a class="nav-link active" href="#">Home
+            <a class="nav-link active" href="agentes.php">Home
                 <span class="visually-hidden">(current)</span>
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="weapons.php">Weapons</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link" href="playercards.php">Playercards</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="buddies.php">Buddies</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="maps.php">Maps</a>
             </li>
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
@@ -89,7 +96,7 @@
         </div>
         <div class="row mt-3 mb-3">
             <div class="col-4">
-                <img src="<?php echo $agente["fullPortrait"] ?>">
+                <img id="imagen" src="<?php echo $agente["fullPortrait"] ?>">
             </div>             
             <div class="col-7 ms-5">
                 <h4>Abilities</h4>
