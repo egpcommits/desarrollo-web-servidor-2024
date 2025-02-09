@@ -107,6 +107,13 @@
             </table>
         </form>
     </div>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-muted ms-5">© 2025 Estela García Pintos</p>
+        <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <img src="imagenes/old-riot.png" class="bi" width="60" height="48">
+        </a>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
