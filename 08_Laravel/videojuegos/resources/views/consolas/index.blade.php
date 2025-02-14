@@ -13,7 +13,8 @@
             Las dobles llaves actuan como si fuese echo
         -->
         @foreach($consolas as $consola)
-            <li>{{$consola}}</li>
+            <!-- como es un objeto, se accede con flechita -->
+            <li>{{ $consola -> nombre }}</li>
         @endforeach
     </ul>
 </body>

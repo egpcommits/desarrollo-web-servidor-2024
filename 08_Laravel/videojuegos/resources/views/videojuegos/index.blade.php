@@ -10,7 +10,7 @@
     <table>
         <thead>
             <tr>
-                <th>Bideojuego</th>
+                <th>Videojuego</th>
                 <th>PEGI</th>
                 <th>Genero</th>
             </tr>
